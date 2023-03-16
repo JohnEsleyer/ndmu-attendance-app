@@ -3,12 +3,12 @@ package com.johnesleyer.QRApp3;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "student")
-public class Student {
+@Table(name = "user")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "student_id")
-    private Integer studentId;
+    @Column(name = "id")
+    private Integer Id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -16,11 +16,11 @@ public class Student {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "course", nullable = false)
-    private String course;
+    // @Column(name = "course", nullable = false)
+    // private String course;
 
-    @Column(name = "schoolYear", nullable = false)
-    private Integer schoolYear;
+    // @Column(name = "schoolYear", nullable = false)
+    // private Integer schoolYear;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;

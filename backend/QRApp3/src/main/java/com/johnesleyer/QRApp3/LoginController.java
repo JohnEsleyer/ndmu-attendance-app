@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
-    private StudentService studentService;
+    private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Student> login(@RequestParam String username, @RequestParam String password) {
-        Student student = studentService.login(username, password);
-        if (student == null) {
+    public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) {
+        User user = userService.login(username, password);
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(user);
     }
 }

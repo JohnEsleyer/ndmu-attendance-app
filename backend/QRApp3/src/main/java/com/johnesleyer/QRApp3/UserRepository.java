@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Integer> {
-    Student findByUsernameAndPassword(String username, String password);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    User findByUsernameAndPassword(String username, String password);
 }
