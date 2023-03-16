@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserService {
+public class LoginService {
     @Autowired
-    private UserRepository userRepository;
+    private LoginRepository userRepository;
 
-    public User login(String username, String password) {
+    public Login login(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 }
