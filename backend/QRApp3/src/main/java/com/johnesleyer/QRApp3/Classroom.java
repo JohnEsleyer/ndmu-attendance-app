@@ -17,6 +17,7 @@ public class Classroom {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
+    
     public Teacher getTeacher() {
         return this.teacher;
     }
