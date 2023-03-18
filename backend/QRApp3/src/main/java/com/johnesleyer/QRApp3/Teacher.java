@@ -13,7 +13,7 @@ public class Teacher {
     private String password;
     private String firstName;
     private String lastName;
-    private int schoolYear;
+
 
     public long getId() {
         return this.id;
@@ -55,12 +55,5 @@ public class Teacher {
         this.lastName = lastName;
     }
 
-    public int getSchoolYear() {
-        return this.schoolYear;
-    }
-
-    public void setSchoolYear(int schoolYear) {
-        this.schoolYear = schoolYear;
-    }
 
 }
