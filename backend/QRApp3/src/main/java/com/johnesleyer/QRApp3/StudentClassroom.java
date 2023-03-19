@@ -19,6 +19,30 @@ public class StudentClassroom {
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-   
+
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Student getStudent() {
+        return this.student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Classroom getClassroom() {
+        return this.classroom;
+    }
+
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
+    }
     
 }

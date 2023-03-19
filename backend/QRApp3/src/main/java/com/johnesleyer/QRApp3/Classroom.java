@@ -2,6 +2,8 @@ package com.johnesleyer.QRApp3;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +14,8 @@ public class Classroom {
     private long id;
 
     private String className;
+    
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date schedule;
     @ManyToOne
     @JoinColumn(name = "teacher_id")
