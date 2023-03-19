@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
   late String _username = " ";
   late String _password = " ";
   bool _loginPressed = false;
-
+  bool _didError = false;
   @override
   Widget build(BuildContext context) {
     print(_username);
@@ -159,6 +159,7 @@ class _LoginState extends State<Login> {
                                     onPressed: () async {
                                       setState(() {
                                         _loginPressed = true;
+                                        _didError = false;
                                       });
                                       var response = await http.post(
                                         Uri.parse(
@@ -181,12 +182,29 @@ class _LoginState extends State<Login> {
                                         if (usrType == "student") {
                                           Navigator.of(context)
                                               .popAndPushNamed("/student");
+                                        } else if (usrType == "teacher") {
+                                          Navigator.of(context)
+                                              .popAndPushNamed("/teacher");
                                         }
+                                      } else if (response.statusCode == 401) {
+                                        setState(() {
+                                          _loginPressed = false;
+                                          _didError = true;
+                                        });
                                       }
                                     },
                                   ),
                                 ),
                               ),
+                        if (_didError)
+                          Center(
+                            child: Text(
+                              "Invalid username or password",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   ),

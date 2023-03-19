@@ -27,7 +27,23 @@ class _StudentScreenState extends State<StudentScreen> {
           ),
         ),
       ),
-      Container(),
+      Container(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              const Text(
+                "Personal Information",
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
     ];
 
     void _onItemTapped(int index) {
@@ -46,7 +62,7 @@ class _StudentScreenState extends State<StudentScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
+            icon: Icon(Icons.account_circle),
             label: 'Personal Info',
           ),
         ],
