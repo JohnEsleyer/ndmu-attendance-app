@@ -164,7 +164,7 @@ class _LoginState extends State<Login> {
                                       });
                                       var response = await http.post(
                                         Uri.parse(
-                                            'nice-bullfrog-86.telebit.io/login'),
+                                            'https://nice-bullfrog-86.telebit.io/login'),
                                         body: jsonEncode({
                                           "username": _username,
                                           "password": _password,
