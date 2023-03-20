@@ -17,10 +17,21 @@ public class Classroom {
     
     @JsonFormat(pattern = "yyyy/MM/dd")
     private Date schedule;
+
+    private String time;
+
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
     
     public Teacher getTeacher() {
         return this.teacher;
