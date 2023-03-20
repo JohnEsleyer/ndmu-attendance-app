@@ -13,19 +13,19 @@ import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 
 @RestController
 public class TeacherController {
-    private final TeacherRepository TeacherRepository;
+    private final TeacherRepository teacherRepository;
 
     public TeacherController(TeacherRepository TeacherRepository){
-        this.TeacherRepository = TeacherRepository;
+        this.teacherRepository = TeacherRepository;
     }
 
     @PostMapping("/register-teacher")
     public Teacher registerTeacher(@RequestBody Teacher Teacher){
-        return TeacherRepository.save(Teacher);
+        return teacherRepository.save(Teacher);
     }
 
     @GetMapping("/all-teachers")
     public List<Teacher> getAllTeachers(){
-        return TeacherRepository.findAll();
+        return teacherRepository.findAll();
     }
 }

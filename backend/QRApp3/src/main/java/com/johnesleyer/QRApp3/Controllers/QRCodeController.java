@@ -13,19 +13,19 @@ import com.johnesleyer.QRApp3.Repositories.QRCodeRepository;
 
 @RestController
 public class QRCodeController {
-    private final QRCodeRepository QRCodeRepository;
+    private final QRCodeRepository qrCodeRepository;
 
     public QRCodeController(QRCodeRepository QRCodeRepository){
-        this.QRCodeRepository = QRCodeRepository;
+        this.qrCodeRepository = QRCodeRepository;
     }
 
     @PostMapping("/register-qrcode")
     public QRCode registerQRCode(@RequestBody QRCode QRCode){
-        return QRCodeRepository.save(QRCode);
+        return qrCodeRepository.save(QRCode);
     }
 
     @GetMapping("/all-qrcodes")
     public List<QRCode> getAllQRCodes(){
-        return QRCodeRepository.findAll();
+        return qrCodeRepository.findAll();
     }
 }

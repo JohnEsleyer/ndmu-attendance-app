@@ -29,13 +29,13 @@ import com.johnesleyer.QRApp3.Repositories.QRCodeRepository;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 @RestController
 public class ClassroomController {
-    private final ClassroomRepository ClassroomRepository;
+    private final ClassroomRepository classroomRepository;
     
     @Autowired
     private QRCodeRepository qrCodeRepository;
 
     public ClassroomController(ClassroomRepository ClassroomRepository){
-        this.ClassroomRepository = ClassroomRepository;
+        this.classroomRepository = ClassroomRepository;
     }
 
 
@@ -59,7 +59,7 @@ public class ClassroomController {
 
     @PostMapping("/register-classroom")
     public Classroom registerClassroom(@RequestBody Classroom Classroom) throws WriterException, IOException{
-        Classroom savedClassroom = ClassroomRepository.save(Classroom);
+        Classroom savedClassroom = classroomRepository.save(Classroom);
 
         // Create QR code for this classroom
         String qrCodeValue = generateRandomValue(20);
@@ -80,7 +80,7 @@ public class ClassroomController {
 
     @GetMapping("/all-classrooms")
     public List<Classroom> getAllClassrooms(){
-        return ClassroomRepository.findAll();
+        return classroomRepository.findAll();
     }
 
 }
