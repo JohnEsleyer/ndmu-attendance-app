@@ -36,4 +36,10 @@ public class StudentClassroomController {
         return studentClassroomRepository.findAllByStudentId(studentId);
     }
 
+    @PostMapping("/all-student-by-classroom")
+    public List<StudentClassroom> getAllStudentsByClassroom(@RequestBody Map<String, Map<String, Integer>> requestBody) {
+        Integer classroomId = requestBody.get("classroom").get("id");
+        return studentClassroomRepository.findAllByStudentId(classroomId);
+    }
+
 }

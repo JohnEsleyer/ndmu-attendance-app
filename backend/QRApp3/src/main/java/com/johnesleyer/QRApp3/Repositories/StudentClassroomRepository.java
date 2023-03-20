@@ -8,4 +8,5 @@ import com.johnesleyer.QRApp3.Entities.StudentClassroom;
 
 public interface StudentClassroomRepository extends JpaRepository<StudentClassroom, Integer>{
     List<StudentClassroom> findAllByStudentId(Integer studentId);
+    List<StudentClassroom> findAllByClassroomId(Integer classroomId);
 }
