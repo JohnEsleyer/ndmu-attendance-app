@@ -1,4 +1,4 @@
-package com.johnesleyer.QRApp3;
+package com.johnesleyer.QRApp3.Controllers;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

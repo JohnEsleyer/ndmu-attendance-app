@@ -1,4 +1,4 @@
-package com.johnesleyer.QRApp3;
+package com.johnesleyer.QRApp3.Entities;
 
 import java.sql.Date;
 

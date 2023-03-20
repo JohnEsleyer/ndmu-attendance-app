@@ -1,4 +1,4 @@
-package com.johnesleyer.QRApp3;
+package com.johnesleyer.QRApp3.Controllers;
 
 import java.util.Optional;
 
@@ -8,6 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.johnesleyer.QRApp3.Entities.Student;
+import com.johnesleyer.QRApp3.Entities.Teacher;
+import com.johnesleyer.QRApp3.Repositories.StudentRepository;
+import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 
 @RestController
 // @RequestMapping("/api")

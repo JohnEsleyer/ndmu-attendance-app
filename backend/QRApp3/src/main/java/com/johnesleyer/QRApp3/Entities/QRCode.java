@@ -1,24 +1,20 @@
-package com.johnesleyer.QRApp3;
-
+package com.johnesleyer.QRApp3.Entities;
 
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "studentClassroom")
-public class StudentClassroom {
+@Table(name = "qrcode")
+public class QRCode {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne 
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-    @ManyToOne
+    private String value;
+    private String imageURL;
+    @OneToOne
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
-
 
 
     public long getId() {
@@ -29,12 +25,20 @@ public class StudentClassroom {
         this.id = id;
     }
 
-    public Student getStudent() {
-        return this.student;
+    public String getValue() {
+        return this.value;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getImageURL() {
+        return this.imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Classroom getClassroom() {
@@ -45,4 +49,5 @@ public class StudentClassroom {
         this.classroom = classroom;
     }
     
+
 }

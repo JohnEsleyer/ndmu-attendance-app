@@ -1,10 +1,10 @@
-package com.johnesleyer.QRApp3;
+package com.johnesleyer.QRApp3.Entities;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "teacher")
-public class Teacher {
+@Table(name = "student")
+public class Student {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -13,7 +13,9 @@ public class Teacher {
     private String password;
     private String firstName;
     private String lastName;
-
+    private int schoolYear;
+    
+    // Getters and setters
 
     public long getId() {
         return this.id;
@@ -29,14 +31,6 @@ public class Teacher {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -55,5 +49,20 @@ public class Teacher {
         this.lastName = lastName;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getSchoolYear() {
+        return this.schoolYear;
+    }
+
+    public void setSchoolYear(int schoolYear) {
+        this.schoolYear = schoolYear;
+    }
+    
 }

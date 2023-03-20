@@ -1,4 +1,4 @@
-package com.johnesleyer.QRApp3;
+package com.johnesleyer.QRApp3.Controllers;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,6 +22,10 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.johnesleyer.QRApp3.Entities.Classroom;
+import com.johnesleyer.QRApp3.Entities.QRCode;
+import com.johnesleyer.QRApp3.Repositories.ClassroomRepository;
+import com.johnesleyer.QRApp3.Repositories.QRCodeRepository;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 @RestController
 public class ClassroomController {
