@@ -1,19 +1,16 @@
 package com.johnesleyer.QRApp3.Controllers;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
+
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +21,17 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.johnesleyer.QRApp3.Entities.Classroom;
 import com.johnesleyer.QRApp3.Entities.QRCode;
+import com.johnesleyer.QRApp3.Entities.Teacher;
 import com.johnesleyer.QRApp3.Repositories.ClassroomRepository;
 import com.johnesleyer.QRApp3.Repositories.QRCodeRepository;
+import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 @RestController
 public class ClassroomController {
     private final ClassroomRepository classroomRepository;
-    
+
+    @Autowired
+    private TeacherRepository teacherRepository;
     @Autowired
     private QRCodeRepository qrCodeRepository;
 
@@ -83,6 +84,13 @@ public class ClassroomController {
         return classroomRepository.findAll();
     }
 
-    
+    @PostMapping("/all-classrooms-by-teacher")
+    public List<Classroom> getAllClassroomsByTeacher(@RequestBody Map<String, Map<String, Integer>> requestBody) {
+        Integer teacherId = requestBody.get("teacher").get("id");
+        // Teacher teacher = teacherRepository.findById(request).orElseThrow(() -> new RuntimeException("Teacher not found"));
+        return classroomRepository.findAllByTeacherId(teacherId);
+    }
+
+
 
 }

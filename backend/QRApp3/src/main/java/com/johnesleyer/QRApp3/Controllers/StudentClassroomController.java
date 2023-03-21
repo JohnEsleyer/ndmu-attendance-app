@@ -30,16 +30,23 @@ public class StudentClassroomController {
         return studentClassroomRepository.findAll();
     }
 
+    // @PostMapping("/all-classrooms-by-student")
+    // public List<StudentClassroom> getAllClassroomsByStudent(@RequestBody Map<String, Map<String, Integer>> requestBody) {
+    //     Integer studentId = requestBody.get("student").get("id");
+    //     return studentClassroomRepository.findAllByStudentId(studentId);
+    // }
+
+    @PostMapping("/all-students-by-classroom")
+    public List<StudentClassroom> getAllStudentsByClassroom(@RequestBody Map<String, Map<String, Integer>> requestBody) {
+        Integer classroomId = requestBody.get("classroom").get("id");
+        return studentClassroomRepository.findAllByClassroomId(classroomId);
+    }
+
+
     @PostMapping("/all-classrooms-by-student")
     public List<StudentClassroom> getAllClassroomsByStudent(@RequestBody Map<String, Map<String, Integer>> requestBody) {
         Integer studentId = requestBody.get("student").get("id");
         return studentClassroomRepository.findAllByStudentId(studentId);
-    }
-
-    @PostMapping("/all-student-by-classroom")
-    public List<StudentClassroom> getAllStudentsByClassroom(@RequestBody Map<String, Map<String, Integer>> requestBody) {
-        Integer classroomId = requestBody.get("classroom").get("id");
-        return studentClassroomRepository.findAllByStudentId(classroomId);
     }
 
 }

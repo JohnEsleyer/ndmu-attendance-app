@@ -1,4 +1,4 @@
-package com.johnesleyer.QRApp3;
+package com.johnesleyer.QRApp3.Controllers;
 
 public class ErrorResponse {
     private String message;

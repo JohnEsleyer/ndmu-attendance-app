@@ -19,7 +19,7 @@ public class StudentClassroom {
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-
+    
 
     public long getId() {
         return this.id;

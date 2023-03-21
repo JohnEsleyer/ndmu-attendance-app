@@ -1,0 +1,14 @@
+  @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String className;
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+    
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    private Date schedule;
+
+    private String time;
