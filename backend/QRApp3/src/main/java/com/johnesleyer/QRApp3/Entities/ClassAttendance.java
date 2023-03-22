@@ -2,6 +2,8 @@ package com.johnesleyer.QRApp3.Entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +12,11 @@ public class ClassAttendance {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date;
+
+    private String time;
 
     @ManyToOne
     @JoinColumn(name = "classroom_id")
@@ -22,6 +28,14 @@ public class ClassAttendance {
 
     private String status;
 
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
 
     public long getId() {

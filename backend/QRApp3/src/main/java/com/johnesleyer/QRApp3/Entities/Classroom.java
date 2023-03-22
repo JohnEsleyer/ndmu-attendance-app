@@ -19,14 +19,24 @@ public class Classroom {
    @JoinColumn(name = "teacher_id")
    private Teacher teacher; 
 
+
+    // The default schedule, set during the creation of the classroom
    @JsonFormat(pattern = "yyyy/MM/dd")
    private Date schedule;
 
-   private String time;
-
+   // The default time which is set during the creation of the classroom
+   private String defaultTime;
 
    private String className;
 
+
+    public String getDefaultTime() {
+        return this.defaultTime;
+    }
+
+    public void setDefaultTime(String defaultTime) {
+        this.defaultTime = defaultTime;
+    }
 
 
    public String getClassName() {
@@ -59,14 +69,6 @@ public class Classroom {
 
     public void setSchedule(Date schedule) {
         this.schedule = schedule;
-    }
-
-    public String getTime() {
-        return this.time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
 

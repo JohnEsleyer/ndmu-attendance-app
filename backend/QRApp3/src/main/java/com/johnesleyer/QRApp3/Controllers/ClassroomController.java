@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +20,13 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.johnesleyer.QRApp3.Entities.Classroom;
 import com.johnesleyer.QRApp3.Entities.QRCode;
-import com.johnesleyer.QRApp3.Entities.Teacher;
 import com.johnesleyer.QRApp3.Repositories.ClassroomRepository;
 import com.johnesleyer.QRApp3.Repositories.QRCodeRepository;
-import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 @RestController
 public class ClassroomController {
     private final ClassroomRepository classroomRepository;
 
-    @Autowired
-    private TeacherRepository teacherRepository;
     @Autowired
     private QRCodeRepository qrCodeRepository;
 
