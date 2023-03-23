@@ -16,7 +16,9 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
       Uri.parse(
           'https://nice-bullfrog-86.telebit.io/all-classrooms-by-teacher'),
       body: jsonEncode({
-        "teacher": Provider.of<UserDataProvider>(context).getUserData.userId,
+        "teacher": {
+          "id": Provider.of<UserDataProvider>(context).getUserData.userId,
+        },
       }),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -27,6 +29,7 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
       // If the call to the server was successful, parse the JSON
       return json.decode(response.body);
     } else {
+      print("Error teacherClassroom fetch");
       // If that call was not successful, throw an error.
       throw Exception('Failed to load classes');
     }
@@ -47,35 +50,37 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-            Center(
-              child: FutureBuilder<List<dynamic>>(
-                  future: fetchClasses(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
-                        height: 10,
-                        width: 10,
-                        child: const CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var className = snapshot.data[index]['className'];
-                          var qrURL = snapshot.data[index]['qrURL'];
-                          // var schedule = snapshot.data[index]['schedule'];
-                          // var defaultTime = snapshot.data[index]['defaultTime'];
+            Expanded(
+              child: Center(
+                child: FutureBuilder<List<dynamic>>(
+                    future: fetchClasses(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container(
+                          height: 10,
+                          width: 10,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var className = snapshot.data[index]['className'];
+                            var qrURL = snapshot.data[index]['qrURL'];
+                            // var schedule = snapshot.data[index]['schedule'];
+                            // var defaultTime = snapshot.data[index]['defaultTime'];
 
-                          return ClassroomContainer(
-                            subjectName: className,
-                            qrURL: qrURL,
-                          );
-                        },
-                      );
-                    }
-                  }),
+                            return ClassroomContainer(
+                              subjectName: className,
+                              qrURL: qrURL,
+                            );
+                          },
+                        );
+                      }
+                    }),
+              ),
             ),
           ],
         ),
