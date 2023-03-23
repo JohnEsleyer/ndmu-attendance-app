@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'models/userDataModel.dart';
 import 'package:provider/provider.dart';
 import 'models/userDataModel.dart';
 
@@ -23,7 +22,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    print(_username);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -178,7 +176,13 @@ class _LoginState extends State<Login> {
                                         Map<String, dynamic> map =
                                             jsonDecode(response.body);
                                         String usrType = map['userType'];
-                                        // int usrId = int.parse(map['userId']);
+                                        int usrId = int.parse(map['userId']);
+                                        String status = map['status'];
+                                        Provider.of<UserDataProvider>(context)
+                                            .updateUserData(
+                                                status: status,
+                                                userType: usrType,
+                                                userId: usrId);
 
                                         if (usrType == "student") {
                                           Navigator.of(context)

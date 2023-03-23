@@ -35,8 +35,6 @@ public class ClassDate {
    private String defaultTime;
    
 
-
-
     public long getId() {
         return this.id;
     }

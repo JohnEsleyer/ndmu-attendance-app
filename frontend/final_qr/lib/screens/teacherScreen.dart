@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'teacher/teacherClassrooms.dart';
 
 class TeacherScreen extends StatefulWidget {
   @override
@@ -27,23 +28,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
           ),
         ),
       ),
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              const Text(
-                "Classrooms",
-                style: TextStyle(
-                  fontSize: 30,
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
+      TeacherClassrooms(),
       Container(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
