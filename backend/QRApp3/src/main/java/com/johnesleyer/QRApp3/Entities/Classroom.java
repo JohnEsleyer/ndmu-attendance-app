@@ -30,6 +30,24 @@ public class Classroom {
    private String className;
    
    private String qrURL;
+   private String qrValue;
+
+
+    public String getQrURL() {
+        return this.qrURL;
+    }
+
+    public void setQrURL(String qrURL) {
+        this.qrURL = qrURL;
+    }
+
+    public String getQrValue() {
+        return this.qrValue;
+    }
+
+    public void setQrValue(String qrValue) {
+        this.qrValue = qrValue;
+    }
 
 
     public String getDefaultTime() {
