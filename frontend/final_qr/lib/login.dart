@@ -173,12 +173,14 @@ class _LoginState extends State<Login> {
                                         },
                                       );
                                       if (response.statusCode == 200) {
+                                        print("success");
                                         Map<String, dynamic> map =
                                             jsonDecode(response.body);
                                         String usrType = map['userType'];
-                                        int usrId = int.parse(map['userId']);
+                                        int usrId = map['userId'];
                                         String status = map['status'];
-                                        Provider.of<UserDataProvider>(context)
+                                        Provider.of<UserDataProvider>(context,
+                                                listen: false)
                                             .updateUserData(
                                                 status: status,
                                                 userType: usrType,
@@ -191,7 +193,8 @@ class _LoginState extends State<Login> {
                                           Navigator.of(context)
                                               .popAndPushNamed("/teacher");
                                         }
-                                      } else if (response.statusCode == 401) {
+                                      } else {
+                                        print("error");
                                         setState(() {
                                           _loginPressed = false;
                                           _didError = true;

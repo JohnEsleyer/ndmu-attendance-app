@@ -61,7 +61,7 @@ public class ClassroomController {
         generateQRCodeImage(qrCodeValue, qrCodeFilePath);
 
 
-        Classroom.setQrURL("/image/" + qrCodeFileName);
+        Classroom.setQrURL("https://nice-bullfrog-86.telebit.io/images/" + qrCodeFileName);
         Classroom.setQrValue(qrCodeValue);
         Classroom savedClassroom = classroomRepository.save(Classroom);
         return savedClassroom;

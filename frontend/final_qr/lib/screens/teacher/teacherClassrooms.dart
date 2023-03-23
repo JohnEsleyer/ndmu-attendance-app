@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
+import 'package:final_qr/widgets/classroomContainer.dart';
 
 class TeacherClassrooms extends StatefulWidget {
   @override
@@ -51,38 +52,25 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                   future: fetchClasses(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
+                      return Container(
+                        height: 10,
+                        width: 10,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      );
                     } else {
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           var className = snapshot.data[index]['className'];
-                          var teacherFirstName =
-                              snapshot.data[index]['teacher']['firstName'];
-                          var teacherLastName =
-                              snapshot.data[index]['teacher']['lastName'];
-                          var schedule = snapshot.data[index]['schedule'];
-                          var defaultTime = snapshot.data[index]['defaultTime'];
+                          var qrURL = snapshot.data[index]['qrURL'];
+                          // var schedule = snapshot.data[index]['schedule'];
+                          // var defaultTime = snapshot.data[index]['defaultTime'];
 
-                          return Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(className, style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
-                                Text(
-                                    'Teacher: $teacherFirstName $teacherLastName'),
-                                SizedBox(height: 5),
-                                Text('Schedule: $schedule'),
-                                SizedBox(height: 5),
-                                Text('Default Time: $defaultTime'),
-                              ],
-                            ),
+                          return ClassroomContainer(
+                            subjectName: className,
+                            qrURL: qrURL,
                           );
                         },
                       );
