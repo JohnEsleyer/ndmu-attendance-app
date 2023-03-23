@@ -28,6 +28,8 @@ public class Classroom {
    private String defaultTime;
 
    private String className;
+   
+   private String qrURL;
 
 
     public String getDefaultTime() {
