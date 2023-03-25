@@ -11,7 +11,7 @@ class ViewClassroomTeacher extends StatefulWidget {
 }
 
 class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
-  DateTime today = DateTime.now();
+  DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
