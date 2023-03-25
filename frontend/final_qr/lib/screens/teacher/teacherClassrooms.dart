@@ -57,10 +57,10 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (!snapshot.hasData) {
                         return Container(
-                          height: 10,
-                          width: 10,
+                          height: 30,
+                          width: 30,
                           child: const CircularProgressIndicator(
-                            color: Colors.white,
+                            color: Colors.green,
                           ),
                         );
                       } else {
@@ -75,6 +75,7 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                             return ClassroomContainer(
                               subjectName: className,
                               qrURL: qrURL,
+                              index: index,
                             );
                           },
                         );

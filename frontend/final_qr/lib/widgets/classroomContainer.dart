@@ -3,18 +3,45 @@ import 'package:flutter/material.dart';
 class ClassroomContainer extends StatelessWidget {
   String subjectName;
   String qrURL;
+  int index;
+  ClassroomContainer(
+      {required this.subjectName, required this.qrURL, required this.index});
 
-  ClassroomContainer({required this.subjectName, required this.qrURL});
+  List<MaterialAccentColor> colorList = [
+    Colors.redAccent,
+    Colors.blueAccent,
+    Colors.greenAccent,
+    Colors.purpleAccent,
+    Colors.orangeAccent,
+  ];
 
+  late MaterialAccentColor displayColor;
   @override
   Widget build(BuildContext context) {
+    switch (index) {
+      case 0:
+        displayColor = colorList[0];
+        break;
+      case 1:
+        displayColor = colorList[1];
+        break;
+      case 2:
+        displayColor = colorList[2];
+        break;
+      case 3:
+        displayColor = colorList[3];
+        break;
+      case 4:
+        displayColor = colorList[4];
+        break;
+    }
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
         height: 0.20 * MediaQuery.of(context).size.height,
         width: 0.90 * MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.redAccent,
+          color: displayColor,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,13 +49,95 @@ class ClassroomContainer extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(subjectName),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    subjectName,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => QRScreen(
+                                qrURL: qrURL,
+                                index: index,
+                              )));
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  child: Hero(
+                    tag: "qrImage_$index",
+                    child: Image.network(qrURL),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class QRScreen extends StatelessWidget {
+  String qrURL;
+  int index;
+  QRScreen({required this.qrURL, required this.index});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+        elevation: 0.0,
+      ),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.10,
-              width: MediaQuery.of(context).size.width * 0.10,
-              child: Image.network(qrURL),
+              child: Center(
+                child: Hero(
+                  tag: "qrImage_$index",
+                  child: Image.network(qrURL),
+                ),
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.10),
+            OutlinedButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
+              ),
+              onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                  "Save to device",
+                ),
+              ),
             ),
           ],
         ),
