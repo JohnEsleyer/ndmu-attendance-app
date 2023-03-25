@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
-import 'package:final_qr/widgets/classroomContainer.dart';
+import 'package:final_qr/screens/teacher/classroomContainer.dart';
 
 class TeacherClassrooms extends StatefulWidget {
   @override
@@ -69,13 +69,15 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                           itemBuilder: (BuildContext context, int index) {
                             var className = snapshot.data[index]['className'];
                             var qrURL = snapshot.data[index]['qrURL'];
+                            var classId = snapshot.data[index]["id"];
                             // var schedule = snapshot.data[index]['schedule'];
                             // var defaultTime = snapshot.data[index]['defaultTime'];
 
                             return ClassroomContainer(
-                              subjectName: className,
+                              className: className,
                               qrURL: qrURL,
                               index: index,
+                              classId: classId,
                             );
                           },
                         );

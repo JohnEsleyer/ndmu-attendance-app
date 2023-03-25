@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'viewClassroom_teacher.dart';
 
 class ClassroomContainer extends StatelessWidget {
-  String subjectName;
+  String className;
   String qrURL;
   int index;
+  int classId;
   ClassroomContainer(
-      {required this.subjectName, required this.qrURL, required this.index});
+      {required this.className,
+      required this.qrURL,
+      required this.index,
+      required this.classId});
 
   List<MaterialAccentColor> colorList = [
     Colors.redAccent,
@@ -35,55 +40,66 @@ class ClassroomContainer extends StatelessWidget {
         displayColor = colorList[4];
         break;
     }
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        height: 0.20 * MediaQuery.of(context).size.height,
-        width: 0.90 * MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: displayColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(
-                    subjectName,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => ViewClassroomTeacher(
+                    className: className, classId: classId)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          height: 0.20 * MediaQuery.of(context).size.height,
+          width: 0.90 * MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: displayColor,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      className,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QRScreen(
+                                  qrURL: qrURL,
+                                  index: index,
+                                )));
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: Hero(
+                      tag: "qrImage_$index",
+                      child: Image.network(
+                        qrURL,
+                      ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QRScreen(
-                                qrURL: qrURL,
-                                index: index,
-                              )));
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  child: Hero(
-                    tag: "qrImage_$index",
-                    child: Image.network(qrURL),
-                  ),
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -117,7 +133,9 @@ class QRScreen extends StatelessWidget {
               child: Center(
                 child: Hero(
                   tag: "qrImage_$index",
-                  child: Image.network(qrURL),
+                  child: Image.network(
+                    qrURL,
+                  ),
                 ),
               ),
             ),
