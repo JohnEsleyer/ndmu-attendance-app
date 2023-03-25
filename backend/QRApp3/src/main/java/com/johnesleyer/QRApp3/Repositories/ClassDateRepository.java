@@ -10,5 +10,5 @@ import com.johnesleyer.QRApp3.Entities.Classroom;
 
 
 public interface ClassDateRepository extends JpaRepository<ClassDate, Integer>{
-    List<ClassDate> findByScheduleAndClassroom(Date date, Classroom classroom);
+    List<ClassDate> findByDateAndClassroom(Date date, Classroom classroom);
 }

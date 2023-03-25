@@ -18,7 +18,7 @@ public class ClassDate {
     private Classroom classroom;
 
     @JsonFormat(pattern = "MM/dd/yyyy")
-    private Date schedule;
+    private Date date;
     
     private String time;
     private String defaultTime;
@@ -44,12 +44,12 @@ public class ClassDate {
     }
 
 
-    public Date getSchedule() {
-        return this.schedule;
+    public Date getdate() {
+        return this.date;
     }
 
-    public void setSchedule(Date schedule) {
-        this.schedule = schedule;
+    public void setdate(Date date) {
+        this.date = date;
     }
 
     public String getTime() {
