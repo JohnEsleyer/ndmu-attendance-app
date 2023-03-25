@@ -21,7 +21,7 @@ public class Classroom {
 
 
     // The default schedule, set during the creation of the classroom
-   @JsonFormat(pattern = "yyyy/MM/dd")
+   @JsonFormat(pattern = "mm/dd/yyyy")
    private Date schedule;
 
    // The default time which is set during the creation of the classroom
