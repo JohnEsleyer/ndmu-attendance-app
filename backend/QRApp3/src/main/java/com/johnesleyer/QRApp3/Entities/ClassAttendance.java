@@ -13,7 +13,7 @@ public class ClassAttendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonFormat(pattern = "mm/dd/yyyy")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private Date date;
 
     private String time;

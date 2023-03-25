@@ -17,11 +17,11 @@ public class ClassDate {
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-    @JsonFormat(pattern = "mm/dd/yyyy")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private Date schedule;
     
     private String time;
-    private String defualtTime;
+    private String defaultTime;
     
     // Getters and setters
 
@@ -60,12 +60,12 @@ public class ClassDate {
         this.time = time;
     }
 
-    public String getDefualtTime() {
-        return this.defualtTime;
+    public String getDefaultTime() {
+        return this.defaultTime;
     }
 
-    public void setDefualtTime(String defualtTime) {
-        this.defualtTime = defualtTime;
+    public void setDefaultTime(String defaultTime) {
+        this.defaultTime = defaultTime;
     }
 
     
