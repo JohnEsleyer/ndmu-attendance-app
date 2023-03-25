@@ -61,7 +61,7 @@ public class ClassroomController {
         generateQRCodeImage(qrCodeValue, qrCodeFilePath);
 
 
-        Classroom.setQrURL(Config.serverURL + "/images/" + qrCodeFileName);
+        Classroom.setQrURL(Config.serverURL+ "/images/" + qrCodeFileName);
         Classroom.setQrValue(qrCodeValue);
         Classroom savedClassroom = classroomRepository.save(Classroom);
         return savedClassroom;
