@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'constants.dart';
 import 'models/userDataModel.dart';
 
 class Login extends StatefulWidget {
@@ -161,8 +161,7 @@ class _LoginState extends State<Login> {
                                         _didError = false;
                                       });
                                       var response = await http.post(
-                                        Uri.parse(
-                                            'https://nice-bullfrog-86.telebit.io/login'),
+                                        Uri.parse(server + '/login'),
                                         body: jsonEncode({
                                           "username": _username,
                                           "password": _password,

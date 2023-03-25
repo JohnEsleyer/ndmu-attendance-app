@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:final_qr/screens/teacher/classroomContainer.dart';
+import 'package:final_qr/constants.dart';
 
 class TeacherClassrooms extends StatefulWidget {
   @override
@@ -13,8 +14,7 @@ class TeacherClassrooms extends StatefulWidget {
 class TeacherClassroomsState extends State<TeacherClassrooms> {
   Future<List<dynamic>> fetchClasses() async {
     final response = await http.post(
-      Uri.parse(
-          'https://nice-bullfrog-86.telebit.io/all-classrooms-by-teacher'),
+      Uri.parse(server + '/all-classrooms-by-teacher'),
       body: jsonEncode({
         "teacher": {
           "id": Provider.of<UserDataProvider>(context).getUserData.userId,
