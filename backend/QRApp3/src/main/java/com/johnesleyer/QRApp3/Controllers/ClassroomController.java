@@ -17,6 +17,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.johnesleyer.QRApp3.Config;
 import com.johnesleyer.QRApp3.Entities.Classroom;
 
 import com.johnesleyer.QRApp3.Repositories.ClassroomRepository;
@@ -60,7 +61,7 @@ public class ClassroomController {
         generateQRCodeImage(qrCodeValue, qrCodeFilePath);
 
 
-        Classroom.setQrURL("https://nice-bullfrog-86.telebit.io/images/" + qrCodeFileName);
+        Classroom.setQrURL(Config.serverURL + "/images/" + qrCodeFileName);
         Classroom.setQrValue(qrCodeValue);
         Classroom savedClassroom = classroomRepository.save(Classroom);
         return savedClassroom;

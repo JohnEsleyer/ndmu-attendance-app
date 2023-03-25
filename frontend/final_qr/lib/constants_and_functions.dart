@@ -1,4 +1,4 @@
-var server = "https://nice-bullfrog-86.telebit.io";
+var server = "https://eight-bottles-write-49-145-224-69.loca.lt";
 
 List<DateTime> getDateList(DateTime date) {
   return [

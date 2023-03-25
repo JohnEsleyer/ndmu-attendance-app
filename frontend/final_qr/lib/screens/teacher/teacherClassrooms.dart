@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:final_qr/screens/teacher/classroomContainer.dart';
-import 'package:final_qr/constants.dart';
+import 'package:final_qr/constants_and_functions.dart';
 
 class TeacherClassrooms extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class TeacherClassrooms extends StatefulWidget {
 class TeacherClassroomsState extends State<TeacherClassrooms> {
   Future<List<dynamic>> fetchClasses() async {
     final response = await http.post(
-      Uri.parse(server + '/all-classrooms-by-teacher'),
+      Uri.parse('$server/all-classrooms-by-teacher'),
       body: jsonEncode({
         "teacher": {
           "id": Provider.of<UserDataProvider>(context).getUserData.userId,
@@ -72,7 +72,7 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                             var classId = snapshot.data[index]["id"];
                             // var schedule = snapshot.data[index]['schedule'];
                             // var defaultTime = snapshot.data[index]['defaultTime'];
-
+                            print(qrURL);
                             return ClassroomContainer(
                               className: className,
                               qrURL: qrURL,

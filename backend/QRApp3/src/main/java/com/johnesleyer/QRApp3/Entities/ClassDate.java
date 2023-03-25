@@ -14,6 +14,10 @@ public class ClassDate {
     private long id;
 
     @ManyToOne 
+    @JoinColumn(name = "classAttendance_id")
+    private ClassAttendance classAttendance;
+
+    @ManyToOne 
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
@@ -33,6 +37,15 @@ public class ClassDate {
         this.id = id;
     }
 
+
+
+    public ClassAttendance getClassAttendance() {
+        return this.classAttendance;
+    }
+
+    public void setClassAttendance(ClassAttendance classAttendance) {
+        this.classAttendance = classAttendance;
+    }
 
 
     public Classroom getClassroom() {
