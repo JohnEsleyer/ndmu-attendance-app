@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.johnesleyer.QRApp3.Entities.ClassDate;
+import com.johnesleyer.QRApp3.Entities.Classroom;
 import com.johnesleyer.QRApp3.Repositories.ClassDateRepository;
 
 @RestController
@@ -35,9 +36,9 @@ public class ClassDateController {
         return classDateRepository.findAll();
     }
 
-    @PostMapping("/class-by-date")
-    public List<ClassDate> getClassDatesByDate(@RequestBody Map<String, String> request){
-        String dateString = request.get("schedule");
+    @PostMapping("/classdate-by-dateclass")
+    public List<ClassDate> getClassAttendanceByDateAndClassroom(@RequestBody Map<String, Object> requestData) {
+        String dateString = (String) requestData.get("date");
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         Date date = null;
         try {
@@ -46,6 +47,9 @@ public class ClassDateController {
             e.printStackTrace();
             return new ArrayList<>();
         }
-        return classDateRepository.findBySchedule(new java.sql.Date(date.getTime()));
+        Long classroomId = Long.parseLong(((Map<String, Object>) requestData.get("classroom")).get("id").toString());
+        Classroom classroom = new Classroom();
+        classroom.setId(classroomId);
+        return classDateRepository.findByScheduleAndClassroom(date, classroom);
     }
 }
