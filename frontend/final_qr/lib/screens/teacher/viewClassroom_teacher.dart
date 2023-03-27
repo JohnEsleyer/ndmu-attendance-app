@@ -57,6 +57,12 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
     }).asyncMap((future) => future);
   }
 
+  Map<String, Color> statusColors = {
+    "absent": Colors.red,
+    "present": Colors.green,
+    "late": Colors.orange,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +148,44 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
               ),
             );
           }),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          if (isPressed)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 50,
+                      color: Colors.red,
+                    ),
+                    Text("Absent"),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 50,
+                      color: Colors.green,
+                    ),
+                    Text("Present"),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 50,
+                      color: Colors.orange,
+                    ),
+                    Text("Late"),
+                  ],
+                ),
+              ],
+            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           isPressed
               ? Expanded(
                   child: StreamBuilder<List<dynamic>>(
@@ -151,7 +194,7 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                         if (!snapshot.hasData) {
                           return Container(
                             height: 30,
-                            width: 30,
+                            width: 40,
                             child: Center(
                               child: const CircularProgressIndicator(
                                 color: Colors.green,
@@ -168,6 +211,7 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                   snapshot.data[index]['student']["firstName"];
                               var status = snapshot.data[index]['status'];
                               var attendanceId = snapshot.data[index]["id"];
+                              var time = snapshot.data[index]["time"];
                               // var schedule = snapshot.data[index]['schedule'];
                               // var defaultTime = snapshot.data[index]['defaultTime'];
                               return Padding(
@@ -181,7 +225,7 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                       width: 0.90 *
                                           MediaQuery.of(context).size.width,
                                       decoration: BoxDecoration(
-                                        color: Colors.green,
+                                        color: statusColors[status],
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
@@ -203,13 +247,13 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Status: $status",
+                                              "$time",
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.03,
+                                                    0.04,
                                               ),
                                             ),
                                           ),
@@ -232,27 +276,6 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      // OutlinedButton(
-                      //   onPressed: () {},
-                      //   style: ButtonStyle(
-                      //     backgroundColor:
-                      //         MaterialStatePropertyAll<Color>(Colors.yellow),
-                      //   ),
-                      //   child: Container(
-                      //     height: MediaQuery.of(context).size.height * 0.08,
-                      //     width: MediaQuery.of(context).size.width * 0.7,
-                      //     child: Center(
-                      //       child: Text(
-                      //         "Set Attendance Time",
-                      //         style: TextStyle(
-                      //           fontSize: MediaQuery.of(context).size.height * 0.03,
-                      //           color: Colors.black,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.03),
                       OutlinedButton(
@@ -284,9 +307,9 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                           height: MediaQuery.of(context).size.height * 0.03),
                       OutlinedButton(
                         onPressed: () {
-                          setState(() {
-                            isPressed = true;
-                          });
+                          // setState(() {
+                          //   isPressed = true;
+                          // });
                         },
                         style: ButtonStyle(
                           backgroundColor:
