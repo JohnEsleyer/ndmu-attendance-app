@@ -18,85 +18,82 @@ class ViewClassroomTeacher extends StatefulWidget {
 class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ViewClassroomProvider(),
-      child: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            Row(
+    return Scaffold(
+      body: Column(
+        children: [
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+          Row(
+            children: [
+              SizedBox(width: 20),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(width: 20),
+              Text(
+                widget.className,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 30,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+          DateSwiper(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(width: 20),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
+                OutlinedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll<Color>(Colors.yellow),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: Center(
+                      child: Text(
+                        "Set Attendance Time",
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.03,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Text(
-                  widget.className,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                OutlinedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll<Color>(Colors.green),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: Center(
+                      child: Text(
+                        "Start Attendance Now",
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.03,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-            DateSwiper(),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.yellow),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.08,
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: Center(
-                        child: Text(
-                          "Set Attendance Time",
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height * 0.03,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  OutlinedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.green),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.08,
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: Center(
-                        child: Text(
-                          "Start Attendance Now",
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height * 0.03,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

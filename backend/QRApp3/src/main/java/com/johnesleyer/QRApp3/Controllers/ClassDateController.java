@@ -68,22 +68,11 @@ public ResponseEntity<?> getClassAttendanceByDateAndClassroom(@RequestBody Map<S
         }
         Map<String, Object> response = new HashMap<>();
         response.put("response", "past");
+        response.put("status", "set");
         response.put("classDates", classDates);
+
         return ResponseEntity.ok().body(response);
     } else if (requestedDate.isAfter(currentDate)) {
-        List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
-        if (classDates.isEmpty()) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("response", "present");
-            response.put("status", "not set");
-            return ResponseEntity.ok().body(response);
-        }
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("response", "future");
-        response.put("classDates", classDates);
-        return ResponseEntity.ok().body(response);
-    } else {
         List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
         if (classDates.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
@@ -91,8 +80,23 @@ public ResponseEntity<?> getClassAttendanceByDateAndClassroom(@RequestBody Map<S
             response.put("status", "not set");
             return ResponseEntity.ok().body(response);
         }
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("response", "future");
+        response.put("status", "set");
+        response.put("classDates", classDates);
+        return ResponseEntity.ok().body(response);
+    } else {
+        List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
+        if (classDates.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("response", "present");
+            response.put("status", "not set");
+            return ResponseEntity.ok().body(response);
+        }
         Map<String, Object> response = new HashMap<>();
         response.put("response", "present");
+        response.put("status", "set");
         response.put("classDates", classDates);
         return ResponseEntity.ok().body(response);
     }

@@ -1,4 +1,6 @@
+import 'package:final_qr/models/viewClassroomModel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'viewClassroom_teacher.dart';
 
 class ClassroomContainer extends StatelessWidget {
@@ -45,8 +47,11 @@ class ClassroomContainer extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => ViewClassroomTeacher(
-                    className: className, classId: classId)));
+                builder: (_) => ChangeNotifierProvider(
+                      create: (context) => ViewClassroomProvider(),
+                      child: ViewClassroomTeacher(
+                          className: className, classId: classId),
+                    )));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
