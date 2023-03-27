@@ -2,6 +2,7 @@ import 'package:final_qr/models/viewClassroomModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'viewClassroom_teacher.dart';
+import 'package:final_qr/constants_and_functions.dart';
 
 class ClassroomContainer extends StatelessWidget {
   String className;
@@ -13,14 +14,6 @@ class ClassroomContainer extends StatelessWidget {
       required this.qrURL,
       required this.index,
       required this.classId});
-
-  List<MaterialAccentColor> colorList = [
-    Colors.redAccent,
-    Colors.blueAccent,
-    Colors.greenAccent,
-    Colors.purpleAccent,
-    Colors.orangeAccent,
-  ];
 
   late MaterialAccentColor displayColor;
   @override
@@ -45,13 +38,17 @@ class ClassroomContainer extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => ChangeNotifierProvider(
-                      create: (context) => ViewClassroomProvider(),
-                      child: ViewClassroomTeacher(
-                          className: className, classId: classId),
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider(
+              create: (context) => ViewClassroomProvider(),
+              builder: (context, child) {
+                return ViewClassroomTeacher(
+                    className: className, classId: classId);
+              },
+            ),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
