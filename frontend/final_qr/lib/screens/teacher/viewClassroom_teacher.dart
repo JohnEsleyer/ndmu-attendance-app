@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:final_qr/models/viewClassroomModel.dart';
@@ -41,6 +42,19 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load classes');
     }
+  }
+
+  late Stream<List<dynamic>> _attendanceStream;
+  int _refreshInterval = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    // Create a stream that emits new data every 3 seconds
+    _attendanceStream =
+        Stream.periodic(Duration(seconds: _refreshInterval), (_) {
+      return fetchClassAttendance();
+    }).asyncMap((future) => future);
   }
 
   @override
@@ -131,8 +145,8 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.07),
           isPressed
               ? Expanded(
-                  child: FutureBuilder<List<dynamic>>(
-                      future: fetchClassAttendance(),
+                  child: StreamBuilder<List<dynamic>>(
+                      stream: _attendanceStream,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
                           return Container(
@@ -159,30 +173,54 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                               return Padding(
                                 padding:
                                     const EdgeInsets.only(left: 25, right: 25),
-                                child: Container(
-                                  height:
-                                      0.10 * MediaQuery.of(context).size.height,
-                                  width:
-                                      0.90 * MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Text(
-                                          "$lastName, $firstName",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 25,
-                                          ),
-                                        ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 0.10 *
+                                          MediaQuery.of(context).size.height,
+                                      width: 0.90 *
+                                          MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
                                       ),
-                                    ],
-                                  ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "$lastName, $firstName",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Status: $status",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.03),
+                                  ],
                                 ),
                               );
                             },
