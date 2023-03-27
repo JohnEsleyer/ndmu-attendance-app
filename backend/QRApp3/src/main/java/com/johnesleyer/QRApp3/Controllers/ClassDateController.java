@@ -60,14 +60,37 @@ public ResponseEntity<?> getClassAttendanceByDateAndClassroom(@RequestBody Map<S
 
     if (requestedDate.isBefore(currentDate)) {
         List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
+        if (classDates.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("response", "past");
+            response.put("status", "not set");
+            return ResponseEntity.ok().body(response);
+        }
         Map<String, Object> response = new HashMap<>();
         response.put("response", "past");
         response.put("classDates", classDates);
         return ResponseEntity.ok().body(response);
     } else if (requestedDate.isAfter(currentDate)) {
-        return ResponseEntity.ok().body("{\"response\": \"future\"}");
+        List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
+        if (classDates.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("response", "present");
+            response.put("status", "not set");
+            return ResponseEntity.ok().body(response);
+        }
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("response", "future");
+        response.put("classDates", classDates);
+        return ResponseEntity.ok().body(response);
     } else {
         List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
+        if (classDates.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("response", "future");
+            response.put("status", "not set");
+            return ResponseEntity.ok().body(response);
+        }
         Map<String, Object> response = new HashMap<>();
         response.put("response", "present");
         response.put("classDates", classDates);
