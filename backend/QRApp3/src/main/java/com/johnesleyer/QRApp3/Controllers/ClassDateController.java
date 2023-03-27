@@ -5,8 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
+
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,31 +40,40 @@ public class ClassDateController {
     }
 
     @PostMapping("/classdate-by-dateclass")
-    public ResponseEntity<?> getClassAttendanceByDateAndClassroom(@RequestBody Map<String, Object> requestData) {
-        String dateString = (String) requestData.get("date");
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        Date date = null;
-        try {
-            date = format.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Invalid date format.");
-        }
-        
-        LocalDate currentDate = LocalDate.now();
-        LocalDate requestedDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-        if (requestedDate.isBefore(currentDate)) {
-            return ResponseEntity.ok().body("{\"response\": \"past\"}");
-        } else if (requestedDate.isAfter(currentDate)) {
-            return ResponseEntity.ok().body("{\"response\": \"future\"}");
-        } else {
-            Long classroomId = Long.parseLong(((Map<String, Object>) requestData.get("classroom")).get("id").toString());
-            Classroom classroom = new Classroom();
-            classroom.setId(classroomId);
-            List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
-            return ResponseEntity.ok().body(classDates);
-        }
+public ResponseEntity<?> getClassAttendanceByDateAndClassroom(@RequestBody Map<String, Object> requestData) {
+    String dateString = (String) requestData.get("date");
+    DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+    Date date = null;
+    try {
+        date = format.parse(dateString);
+    } catch (ParseException e) {
+        e.printStackTrace();
+        return ResponseEntity.badRequest().body("Invalid date format.");
+    }
+    
+    LocalDate currentDate = LocalDate.now();
+    LocalDate requestedDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    
+    Long classroomId = Long.parseLong(((Map<String, Object>) requestData.get("classroom")).get("id").toString());
+    Classroom classroom = new Classroom();
+    classroom.setId(classroomId);
+
+    if (requestedDate.isBefore(currentDate)) {
+        List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
+        Map<String, Object> response = new HashMap<>();
+        response.put("response", "past");
+        response.put("classDates", classDates);
+        return ResponseEntity.ok().body(response);
+    } else if (requestedDate.isAfter(currentDate)) {
+        return ResponseEntity.ok().body("{\"response\": \"future\"}");
+    } else {
+        List<ClassDate> classDates = classDateRepository.findByDateAndClassroom(date, classroom);
+        Map<String, Object> response = new HashMap<>();
+        response.put("response", "present");
+        response.put("classDates", classDates);
+        return ResponseEntity.ok().body(response);
+    }
 }
+
 
 }

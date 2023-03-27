@@ -1,6 +1,6 @@
 package com.johnesleyer.QRApp3;
 
 public class Config {
-    public static String serverURL = "https://eight-bottles-write-49-145-224-69.loca.lt";
+    public static String serverURL = "https://sweet-roses-sell-210-185-178-169.loca.lt";
     
 }
