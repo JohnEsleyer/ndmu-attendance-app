@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-var server = "https://clear-glasses-tell-49-145-232-7.loca.lt";
+var server = "https://light-maps-melt-49-145-232-7.loca.lt";
 
 List<DateTime> getDateList(DateTime date) {
   return [

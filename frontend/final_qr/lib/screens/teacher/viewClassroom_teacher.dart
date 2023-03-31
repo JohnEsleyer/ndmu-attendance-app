@@ -205,11 +205,20 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                           return Center(
                             child: DelayedWidget(
                               delay: Duration(seconds: 2),
-                              child: Text(
-                                "No attendance found",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "No attendance found",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "If you believe there is an attendance for this date,\n please wait for few seconds as there might be \n a delay in the connection.",
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
                               ),
                             ),
                           );
@@ -338,18 +347,6 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                 ),
                               );
                             },
-                          );
-                        } else if (snapshot.data.length == 0) {
-                          return Center(
-                            child: DelayedWidget(
-                              delay: Duration(seconds: 2),
-                              child: Text(
-                                "No attendance found",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
                           );
                         } else {
                           return Container(
