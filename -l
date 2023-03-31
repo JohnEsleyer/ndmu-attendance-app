@@ -1,0 +1,279 @@
+[33mcommit 0f24149f742f9f6066de5c31187b638d99e8c010[m[33m ([m[1;36mHEAD -> [m[1;32msecond-branch[m[33m)[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 18:05:44 2023 +0800
+
+    updated ViewClassAttendance
+
+[33mcommit b3806772a116619c70a2eaf5adc23c29b17f18a3[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 17:30:35 2023 +0800
+
+    Changed FutureBuilder to StreamBuilder
+
+[33mcommit 254380c0c14469768e6e2ca749a13ba14829c931[m[33m ([m[1;31morigin/second-branch[m[33m)[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 17:06:11 2023 +0800
+
+    updated viewclassroom widget
+
+[33mcommit 2d84792158acc875aea09c9efe05c3c8e40bc845[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 13:24:07 2023 +0800
+
+    updated backend and frontend
+
+[33mcommit 1bc7df1cb1084ec65c97b471409a53bf690b878a[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 13:00:40 2023 +0800
+
+    Updated viewclassroom dateswiper
+
+[33mcommit 00466ceb36c63ead11a9da94c04e338898753f32[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 11:54:26 2023 +0800
+
+    updated ClassDateController
+
+[33mcommit 9f92046b48945f7a084d4d10a03748a44b105834[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 27 11:42:14 2023 +0800
+
+    Updated ClassDateController
+
+[33mcommit 5737c715eb1ab624d0674f7956307bd3062c65d2[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 26 07:35:44 2023 +0800
+
+    updated classdate controller for /classdate-by-dateclass endpoint
+
+[33mcommit 300a32b788c016a1bb2ff9fe95b928433fb70d3b[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 26 07:15:54 2023 +0800
+
+    updated ClassDate
+
+[33mcommit 1e4667028bdbd9faf1e8bd48dabdb1e6bc07aa44[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 26 07:03:54 2023 +0800
+
+    updated frontend
+
+[33mcommit 9fe39a3eacf1fb3e5262a913ad05064971d929ef[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 26 06:39:50 2023 +0800
+
+    updated ClassAttendanceController
+
+[33mcommit 9019c783130dcbcbc4996c49e64a815f0143d69d[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 26 05:45:09 2023 +0800
+
+    updated backend
+
+[33mcommit aa3fc26b56b5c059b7cae88e9cf564a9afdf7f41[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 26 05:44:28 2023 +0800
+
+    updated backend and frontend server URL
+
+[33mcommit 3ae9cc37fa0b1bf0cf7b3aef542ff85b2ec9f680[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 25 15:46:39 2023 +0800
+
+    updated date format
+
+[33mcommit f1ed28e1af8e395ba5b1bcc95a124298c5258f85[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 25 15:07:20 2023 +0800
+
+    updated class date entity and added new endpoints for it
+
+[33mcommit c229a53636021567413f9f0e62128750ee1bf0ec[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 25 13:42:04 2023 +0800
+
+    added sdate swiper
+
+[33mcommit 05f606cb5c634fa4f25c862266d470e5418b25de[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 25 12:11:22 2023 +0800
+
+    added new screen for viewing classroom
+
+[33mcommit fd996e57d7ed6e607c7ddd37e69dbd1eb5554841[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 25 10:21:52 2023 +0800
+
+    removed unused package
+
+[33mcommit dac2bed878bf64595e58c1972b116958260acb23[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 25 10:17:28 2023 +0800
+
+    added loading widget
+
+[33mcommit c14e9f7ce75a98d6df3f6b596218b50afcc32869[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Thu Mar 23 13:11:04 2023 +0800
+
+    updated teacherClassroms.dart by displaying QRCode image received from the backend
+
+[33mcommit b0074affc8b5e8157ad55a41aeb64c77d2d7608c[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Thu Mar 23 11:35:49 2023 +0800
+
+    fixed login error
+
+[33mcommit a05de150122d161e0a4cb7c74d41cf726fb0ed8c[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Thu Mar 23 11:05:26 2023 +0800
+
+    Updated ClassroomController
+
+[33mcommit 44dc68f2b1f7694529736a128841c55b4b3cdc2d[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Thu Mar 23 09:41:21 2023 +0800
+
+    removed QRCode entity
+
+[33mcommit 790d01820c9fa1e66cf355bad73a46106d53eb66[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Thu Mar 23 09:38:38 2023 +0800
+
+    updated teacher classrooms UI
+
+[33mcommit 2ad30e993f9265415a58584a82e1848f8b7b1f41[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Wed Mar 22 10:49:56 2023 +0800
+
+    added ClassDate entity
+
+[33mcommit 7ccf4913d66c644a23087c74dc4bb3650c8dbd45[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Tue Mar 21 10:37:12 2023 +0800
+
+    added endpoint for filtering classrooms by student
+
+[33mcommit b82277551d7ee1a0fddd3c365a0bac5ab50e420a[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Tue Mar 21 07:54:09 2023 +0800
+
+    added endpoint for filtering students by classroom
+
+[33mcommit 7dbab24d8a6fa891ac41f56535852c48c43c7631[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Tue Mar 21 07:49:14 2023 +0800
+
+    added endpoint for filtering classrooms by student id
+
+[33mcommit e6caebac071f8701aad8cf3e568104b8745003ec[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Tue Mar 21 07:25:47 2023 +0800
+
+    updated backend file structure
+
+[33mcommit c2993f96b6d2da89a8a68e780461abce1ece71ef[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Tue Mar 21 06:44:18 2023 +0800
+
+    added endpoint for serving QR code images
+
+[33mcommit 0ca0e56aa61dd524be37044cc3c4d10fc0a940c2[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 20 21:10:38 2023 +0800
+
+    added qr code generation at backend
+
+[33mcommit 0ed3e0c610b55bbf503ed723cf6cb4ddfa958a81[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 20 10:02:03 2023 +0800
+
+    updated classroom entity model
+
+[33mcommit 89d960e625b83eceab6491612fb3056065426a94[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 20 09:10:02 2023 +0800
+
+    updated http url
+
+[33mcommit 012a86bfb98290d45e54921e9ba38b8e7d3eb435[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Mon Mar 20 09:00:40 2023 +0800
+
+    updated HTTP URL
+
+[33mcommit ea8fa85134618d7a3c2bedafcd05622e31e69f10[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 19 23:14:44 2023 +0800
+
+    added teacher screen and updated student screen
+
+[33mcommit 1fcea18b86a7397290f825956aa01504c3fa127d[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 19 22:42:31 2023 +0800
+
+    recreated frontend
+
+[33mcommit d31e399e00e0c41ac2f594bcd70922b0361a6902[m
+Author: Ralph Esleyer Policarpio <66754038+JohnEsleyer@users.noreply.github.com>
+Date:   Sun Mar 19 22:39:34 2023 +0800
+
+    delete frontend directory
+
+[33mcommit 20162ced0fc77cdadcf83ec156cd5f028af359d4[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 19 22:37:55 2023 +0800
+
+    added login authentication
+
+[33mcommit 12cbfc9f3352925a598e7ae2727d09074a177e71[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 19 16:29:56 2023 +0800
+
+    updated student_classroom api endpoint
+
+[33mcommit 55248ea1519451dacef90c5ae957b565b865358c[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sun Mar 19 15:04:45 2023 +0800
+
+    added login screen
+
+[33mcommit f5281848235de976ba366585f2da812ac79654de[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 18 17:44:34 2023 +0800
+
+    added endpoint for login
+
+[33mcommit 4f2d9b0d961535eb75c52de309dedd2854e0417a[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 18 16:38:53 2023 +0800
+
+    added student-classroom entity
+
+[33mcommit 446c8b2fbd49e5a111437fb73813be1a966032f0[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 18 15:47:48 2023 +0800
+
+    removed unused zip files
+
+[33mcommit c8dbb893ae916a960c7a381bbe39a8de1b8354cb[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 18 15:45:37 2023 +0800
+
+    added classroom attendance and qrcode endpoints
+
+[33mcommit 0e5b8d743a5dd1a697e8431933fa38d8d0117ac1[m
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 18 15:17:53 2023 +0800
+
+    added api endpoint for classroom and remove login endpoint
+
+[33mcommit b5766a8e5656a273fad7a8165b8224fbdb7a14cd[m
+Merge: f1aa9ac 36a4b54
+Author: john <ralphesleyer@gmail.com>
+Date:   Sat Mar 18 15:16:55 2023 +0800
+
+    Merge branch 'main' of https://github.com/JohnEsleyer/NDMU-Attendance-App
+    Local repo is missing files
+
+[33mcommit f1aa9accfe24180626ac0

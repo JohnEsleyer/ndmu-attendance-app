@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:final_qr/constants_and_functions.dart';
 
 class ViewClassroom {
+  DateTime todayDate = DateTime.now();
   late int classId;
   late DateTime selectedDate;
   late List<DateTime> dates;
@@ -13,7 +14,7 @@ class ViewClassroom {
   ViewClassroom() {
     selectedDate = DateTime.now();
     currentIndex = 30;
-    dates = getDateList(selectedDate);
+    dates = getDateList(todayDate);
   }
 }
 
