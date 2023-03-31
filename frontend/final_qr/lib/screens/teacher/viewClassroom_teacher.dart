@@ -201,7 +201,8 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                     print(snapshot.data);
                   }
 
-                  if (!snapshot.hasData) {
+                  if (!snapshot.hasData ||
+                      snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
                       height: 30,
                       width: 40,
@@ -214,74 +215,101 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text("An error has occured!"));
                   } else {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var lastName =
-                            snapshot.data[index]['student']["lastName"];
-                        var firstName =
-                            snapshot.data[index]['student']["firstName"];
-                        var status = snapshot.data[index]['status'];
-                        var attendanceId = snapshot.data[index]["id"];
-                        var time = snapshot.data[index]["time"];
-                        // var schedule = snapshot.data[index]['schedule'];
-                        // var defaultTime = snapshot.data[index]['defaultTime'];
-                        if (snapshot.data.length == 0) {
-                          return Center(
-                            child: Text("No attendance found"),
+                    print("has data");
+                    if (snapshot.data.length == 0) {
+                      return Center(
+                        child: Text("No attendance found"),
+                      );
+                    }
+                    var dateString = snapshot.data[0]['date'];
+                    DateFormat format = DateFormat("MM/dd/yyyy");
+                    DateTime date = format.parse(dateString);
+                    date = date.add(Duration(days: 1));
+
+                    //Recreate DateTime to remove hours, minutes, and seconds.
+                    selected =
+                        DateTime(selected.year, selected.month, selected.day);
+                    print(date.toString());
+                    print(selected.toString());
+                    if (date == selected) {
+                      print("true");
+                      return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var lastName =
+                              snapshot.data[index]['student']["lastName"];
+                          var firstName =
+                              snapshot.data[index]['student']["firstName"];
+                          var status = snapshot.data[index]['status'];
+                          var attendanceId = snapshot.data[index]["id"];
+                          var time = snapshot.data[index]["time"];
+                          // var schedule = snapshot.data[index]['schedule'];
+                          // var defaultTime = snapshot.data[index]['defaultTime'];
+                          // print("ListView building.");
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 25, right: 25),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height:
+                                      0.10 * MediaQuery.of(context).size.height,
+                                  width:
+                                      0.90 * MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: statusColors[status],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "$lastName, $firstName",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "$time",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.03),
+                              ],
+                            ),
                           );
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 25, right: 25),
-                          child: Column(
-                            children: [
-                              Container(
-                                height:
-                                    0.10 * MediaQuery.of(context).size.height,
-                                width: 0.90 * MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  color: statusColors[status],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "$lastName, $firstName",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "$time",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.03),
-                            ],
+                        },
+                      );
+                    } else {
+                      return Container(
+                        height: 30,
+                        width: 40,
+                        child: Center(
+                          child: const CircularProgressIndicator(
+                            color: Colors.green,
                           ),
-                        );
-                      },
-                    );
+                        ),
+                      );
+                    }
                   }
                 }),
           ),
