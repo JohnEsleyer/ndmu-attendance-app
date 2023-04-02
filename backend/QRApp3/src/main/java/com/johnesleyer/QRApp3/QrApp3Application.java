@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan()
 @SpringBootApplication
 public class QrApp3Application {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(QrApp3Application.class, args);
 	}

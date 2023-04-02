@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,11 +54,11 @@ public class ClassroomController {
 
     @PostMapping("/register-classroom")
     public Classroom registerClassroom(@RequestBody Classroom Classroom) throws WriterException, IOException{
-    
+
         // Create QR code for this classroom
         String qrCodeValue = generateRandomValue(20);
         String qrCodeFileName = Classroom.getClassName() + "_" + generateRandomValue(7) + ".png";
-        String qrCodeFilePath = "/media/john/632E12F06D7D80DE/ProjectDocuments/NDMU3/NDMU-Attendance-App/backend/images/" + qrCodeFileName;
+        String qrCodeFilePath = "images/" + qrCodeFileName;
         generateQRCodeImage(qrCodeValue, qrCodeFilePath);
 
 

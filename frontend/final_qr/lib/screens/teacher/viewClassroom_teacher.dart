@@ -623,188 +623,28 @@ class _ViewClassroomTeacher2State extends State<ViewClassroomTeacher2> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.67,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-              ),
-              child: Expanded(
-                child: StreamBuilder<List<dynamic>>(
-                    stream: _attendanceStream,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (isChanged) {
-                        snapshot = AsyncSnapshot<List<String>>.nothing();
+            Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                ),
+                child: Expanded(
+                  child: StreamBuilder<List<dynamic>>(
+                      stream: _attendanceStream,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (isChanged) {
+                          snapshot = AsyncSnapshot<List<String>>.nothing();
 
-                        isChanged = false;
-                        print(snapshot.data);
-                      }
-                      if (!snapshot.hasData ||
-                          snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(
-                          height: 30,
-                          width: 40,
-                          child: Center(
-                            child: const CircularProgressIndicator(
-                              color: Colors.green,
-                            ),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("An error has occured!"));
-                      } else {
-                        print("has data");
-                        if (snapshot.data.length == 0) {
-                          return Center(
-                            child: DelayedWidget(
-                              delay: Duration(seconds: 2),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "No attendance found",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "If you believe there is an attendance for this date,\n please wait for few seconds as there might be \n a delay in the connection.",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
+                          isChanged = false;
+                          print(snapshot.data);
                         }
-
-                        var dateString = snapshot.data[0]['date'];
-                        DateFormat format = DateFormat("MM/dd/yyyy");
-                        DateTime date = format.parse(dateString);
-                        date = date.add(Duration(days: 1));
-
-                        //Recreate DateTime to remove hours, minutes, and seconds.
-                        selected = DateTime(
-                            selected.year, selected.month, selected.day);
-                        print(date.toString());
-                        print(selected.toString());
-                        if (date == selected) {
-                          print("true");
-                          return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var lastName =
-                                  snapshot.data[index]['student']["lastName"];
-                              var firstName =
-                                  snapshot.data[index]['student']["firstName"];
-                              var status = snapshot.data[index]['status'];
-                              var attendanceId = snapshot.data[index]["id"];
-                              var time = snapshot.data[index]["time"];
-                              // var schedule = snapshot.data[index]['schedule'];
-                              // var defaultTime = snapshot.data[index]['defaultTime'];
-                              // print("ListView building.");
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 25, right: 25),
-                                child: Column(
-                                  children: [
-                                    DelayedWidget(
-                                      child: Container(
-                                        height: 0.10 *
-                                            MediaQuery.of(context).size.height,
-                                        width: 0.90 *
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                              offset: Offset(0,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
-                                          color: Colors.white,
-                                          border: Border.all(
-                                            color: Colors.black,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Name: $lastName, $firstName",
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.04,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Time entered: $time",
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.04,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    status,
-                                                    style: TextStyle(
-                                                      color:
-                                                          statusColors[status],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.03),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        } else {
+                        if (!snapshot.hasData ||
+                            snapshot.connectionState ==
+                                ConnectionState.waiting) {
                           return Container(
                             height: 30,
                             width: 40,
@@ -814,9 +654,167 @@ class _ViewClassroomTeacher2State extends State<ViewClassroomTeacher2> {
                               ),
                             ),
                           );
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text("An error has occured!"));
+                        } else {
+                          print("has data");
+                          if (snapshot.data.length == 0) {
+                            return Center(
+                              child: DelayedWidget(
+                                delay: Duration(seconds: 2),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "No attendance found",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "If you believe there is an attendance for this date,\n please wait for few seconds as there might be \n a delay in the connection.",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+
+                          var dateString = snapshot.data[0]['date'];
+                          DateFormat format = DateFormat("MM/dd/yyyy");
+                          DateTime date = format.parse(dateString);
+                          date = date.add(Duration(days: 1));
+
+                          //Recreate DateTime to remove hours, minutes, and seconds.
+                          selected = DateTime(
+                              selected.year, selected.month, selected.day);
+                          print(date.toString());
+                          print(selected.toString());
+                          if (date == selected) {
+                            print("true");
+                            return ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var lastName =
+                                    snapshot.data[index]['student']["lastName"];
+                                var firstName = snapshot.data[index]['student']
+                                    ["firstName"];
+                                var status = snapshot.data[index]['status'];
+                                var attendanceId = snapshot.data[index]["id"];
+                                var time = snapshot.data[index]["time"];
+                                // var schedule = snapshot.data[index]['schedule'];
+                                // var defaultTime = snapshot.data[index]['defaultTime'];
+                                // print("ListView building.");
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 25, right: 25),
+                                  child: Column(
+                                    children: [
+                                      DelayedWidget(
+                                        child: Container(
+                                          height: 0.10 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                          width: 0.90 *
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 2,
+                                                blurRadius: 5,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      "Name: $lastName, $firstName",
+                                                      style: TextStyle(
+                                                        fontSize: 17,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    child: Text(
+                                                      "Time entered: $time",
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      status,
+                                                      style: TextStyle(
+                                                        color: statusColors[
+                                                            status],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.03),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return Container(
+                              height: 30,
+                              width: 40,
+                              child: Center(
+                                child: const CircularProgressIndicator(
+                                  color: Colors.green,
+                                ),
+                              ),
+                            );
+                          }
                         }
-                      }
-                    }),
+                      }),
+                ),
               ),
             ),
           ],
