@@ -112,7 +112,7 @@ public ResponseEntity<?> getClassAttendanceByDateAndClassroom(@RequestBody Map<S
     }
 }
 
-    @PostMapping("/classdate-by-studentdate")
+    @PostMapping("/classdates-by-studentdate")
     public List<ClassDate> getClassDatesByStudentAndDate(@RequestBody StudentDateRequest request) throws ParseException {
         List<StudentClassroom> studentClassrooms = studentClassroomRepository.findAllByStudentId(request.getStudent().getId());
         List<ClassDate> classDates = new ArrayList<>();
