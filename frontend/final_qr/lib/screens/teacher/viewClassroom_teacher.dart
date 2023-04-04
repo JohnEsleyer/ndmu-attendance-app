@@ -281,24 +281,27 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.04),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.10,
-                              width: MediaQuery.of(context).size.width * 0.90,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 243, 183, 71),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2,
+                            GestureDetector(
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.10,
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 243, 183, 71),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 2,
+                                  ),
                                 ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Set Attendace for Later",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                child: Center(
+                                  child: Text(
+                                    "Set Attendace for Later",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
                               ),

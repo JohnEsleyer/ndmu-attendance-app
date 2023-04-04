@@ -75,7 +75,6 @@ class ClassroomContainer extends StatelessWidget {
                       className,
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -112,7 +111,6 @@ class ClassroomContainer extends StatelessWidget {
                               "Tap to expand",
                               style: TextStyle(
                                 fontSize: 8,
-                                color: Colors.white,
                               ),
                             ),
                           ),
