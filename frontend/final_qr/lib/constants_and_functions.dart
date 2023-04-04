@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 // var server = "http://127.0.0.1:8080";
-var server = "https://fuzzy-teeth-obey-49-145-236-19.loca.lt";
+// var server = "10.0.2.2:8080";
+var server = "https://lovely-donkey-38.telebit.io";
 
 List<DateTime> getDateList(DateTime date) {
   return [

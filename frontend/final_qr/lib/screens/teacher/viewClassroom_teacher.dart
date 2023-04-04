@@ -22,6 +22,69 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
   bool isChanged = false;
   final GlobalKey<State> _key = GlobalKey();
 
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  int getMinutesDiff(TimeOfDay tod1, TimeOfDay tod2) {
+    return (tod1.hour * 60 + tod1.minute) - (tod2.hour * 60 + tod2.minute);
+  }
+
+  Future<Map<String, dynamic>> _registerClassDate(TimeOfDay? picked) async {
+    if (picked != null) {
+      String formattedTime =
+          '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
+      print("sent");
+      final response = await http.post(
+        Uri.parse(
+          "$server/register-classDate",
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'date': DateFormat('MM/dd/yyyy').format(selected),
+          "time": formattedTime,
+          'classroom': {
+            "id": widget.classId,
+          },
+        }),
+      );
+      print(response.statusCode);
+      print("request: ${jsonEncode({
+            'date': DateFormat('MM/dd/yyyy').format(selected),
+            "time": formattedTime,
+            'classroom': {
+              "id": widget.classId,
+            },
+          })}");
+      print("response: ${response.body}");
+      setState(() {
+        _key.currentState?.reassemble(); // Trigger a rebuild of the widget
+      });
+    }
+    return {"status": "error"};
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context),
+          child: child!,
+        );
+      },
+    );
+
+    _registerClassDate(picked);
+
+    if (picked != null && picked != selectedTime) {
+      setState(() async {
+        selectedTime = picked;
+      });
+    }
+  }
+
   Future<Map<String, dynamic>> _getData() async {
     final response = await http.post(
       Uri.parse(
@@ -282,6 +345,9 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.04),
                             GestureDetector(
+                              onTap: () {
+                                _selectTime(context);
+                              },
                               child: Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.10,
@@ -310,56 +376,95 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                         ),
                       );
                     } else {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secodaryAnimation) =>
-                                      ChangeNotifierProvider(
-                                create: (context) => ViewClassroomProvider(),
-                                builder: (context, child) {
-                                  return ViewClassroomTeacher2(
-                                      className: widget.className,
-                                      classId: widget.classId,
-                                      initialDate: selected);
+                      String timeString = data["classDates"][0]["time"];
+                      TimeOfDay timeSched = TimeOfDay.fromDateTime(
+                          DateTime.parse("1970-01-01 $timeString:00"));
+
+                      print(timeString);
+
+                      var timeNow = TimeOfDay.now();
+                      // Convert timeNow to 24-hour format
+                      int hour24 = timeNow.hour;
+                      if (timeNow.period == DayPeriod.pm && hour24 < 12) {
+                        hour24 += 12;
+                      }
+                      TimeOfDay timeNowto24 =
+                          TimeOfDay(hour: hour24, minute: timeNow.minute);
+
+                      int result = getMinutesDiff(timeSched, timeNowto24);
+                      print(result);
+                      if (result > 0) {
+                        return Center(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.alarm,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                              Text(
+                                "Attendance scheduled at ${timeSched.format(context)}",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 221, 216, 216),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secodaryAnimation) =>
+                                        ChangeNotifierProvider(
+                                  create: (context) => ViewClassroomProvider(),
+                                  builder: (context, child) {
+                                    return ViewClassroomTeacher2(
+                                        className: widget.className,
+                                        classId: widget.classId,
+                                        initialDate: selected);
+                                  },
+                                ),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                      begin: Offset(0, 1),
+                                      end: Offset.zero,
+                                    ).animate(animation),
+                                    child: child,
+                                  );
                                 },
                               ),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween<Offset>(
-                                    begin: Offset(0, 1),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                );
-                              },
+                            );
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.10,
+                            width: MediaQuery.of(context).size.width * 0.90,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 243, 183, 71),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2,
+                              ),
                             ),
-                          );
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.10,
-                          width: MediaQuery.of(context).size.width * 0.90,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 243, 183, 71),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 2,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "View Attendance",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                            child: Center(
+                              child: Text(
+                                "View Attendance",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     }
                   } else {
                     if (data["status"] == "set") {
