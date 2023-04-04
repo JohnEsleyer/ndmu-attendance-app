@@ -284,9 +284,9 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 _createClassDate(DateTime.now());
-                                Navigator.of(context).push(
+                                var res = await Navigator.of(context).push(
                                   PageRouteBuilder(
                                     pageBuilder: (context, animation,
                                             secodaryAnimation) =>
@@ -315,6 +315,7 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                 setState(() {
                                   _key.currentState
                                       ?.reassemble(); // Trigger a rebuild of the widget
+                                  print("setState executed");
                                 });
                               },
                               child: Container(
