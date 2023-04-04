@@ -20,6 +20,7 @@ class ViewClassroomTeacher extends StatefulWidget {
 class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
   DateTime selected = DateTime.now();
   bool isChanged = false;
+  final GlobalKey<State> _key = GlobalKey();
 
   Future<Map<String, dynamic>> _getData() async {
     final response = await http.post(
@@ -248,6 +249,10 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                                     },
                                   ),
                                 );
+                                setState(() {
+                                  _key.currentState
+                                      ?.reassemble(); // Trigger a rebuild of the widget
+                                });
                               },
                               child: Container(
                                 height:

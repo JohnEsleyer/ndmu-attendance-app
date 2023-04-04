@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-var server = "http://127.0.0.1:8080";
+// var server = "http://127.0.0.1:8080";
+var server = "https://fuzzy-teeth-obey-49-145-236-19.loca.lt";
 
 List<DateTime> getDateList(DateTime date) {
   return [
@@ -68,7 +69,7 @@ List<DateTime> getDateList(DateTime date) {
   ];
 }
 
-List<MaterialAccentColor> colorList = [
+List<Color> colorList = [
   Colors.redAccent,
   Colors.blueAccent,
   Colors.greenAccent,

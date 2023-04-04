@@ -15,7 +15,7 @@ class ClassroomContainer extends StatelessWidget {
       required this.index,
       required this.classId});
 
-  late MaterialAccentColor displayColor;
+  late Color displayColor;
   @override
   Widget build(BuildContext context) {
     switch (index) {
