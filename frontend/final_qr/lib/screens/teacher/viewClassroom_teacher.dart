@@ -699,6 +699,7 @@ class _ViewClassroomTeacher2State extends State<ViewClassroomTeacher2> {
                           if (date == selected) {
                             print("true");
                             return ListView.builder(
+                              physics: BouncingScrollPhysics(),
                               itemCount: snapshot.data.length,
                               itemBuilder: (BuildContext context, int index) {
                                 var lastName =
