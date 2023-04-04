@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'student/studentTodaysAttendance.dart';
 
 class StudentScreen extends StatefulWidget {
   @override
@@ -10,23 +11,7 @@ class _StudentScreenState extends State<StudentScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _screenOptions = <Widget>[
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              const Text(
-                "Today's Attendance",
-                style: TextStyle(
-                  fontSize: 30,
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
+      TodaysAttendance(),
       Container(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
