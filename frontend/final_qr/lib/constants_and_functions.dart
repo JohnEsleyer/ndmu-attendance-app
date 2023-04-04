@@ -70,9 +70,9 @@ List<DateTime> getDateList(DateTime date) {
 }
 
 List<Color> colorList = [
-  Colors.redAccent,
-  Colors.blueAccent,
-  Colors.greenAccent,
-  Colors.purpleAccent,
-  Colors.orangeAccent,
+  Color.fromARGB(255, 18, 95, 28),
+  Color.fromARGB(255, 21, 134, 40),
+  Color.fromARGB(255, 107, 119, 37),
+  Color.fromARGB(255, 80, 109, 61),
+  Color.fromARGB(255, 145, 84, 44),
 ];

@@ -57,6 +57,11 @@ class ClassroomContainer extends StatelessWidget {
           width: 0.90 * MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: displayColor,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            border: Border.all(
+              color: Colors.black,
+              width: 2,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,11 +96,28 @@ class ClassroomContainer extends StatelessWidget {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.15,
                     width: MediaQuery.of(context).size.width * 0.15,
-                    child: Hero(
-                      tag: "qrImage_$index",
-                      child: Image.network(
-                        qrURL,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Hero(
+                          tag: "qrImage_$index",
+                          child: Image.network(
+                            qrURL,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Center(
+                            child: Text(
+                              "Tap to expand",
+                              style: TextStyle(
+                                fontSize: 8,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -58,6 +58,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
     return Scaffold(
       body: _screenOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 10,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
