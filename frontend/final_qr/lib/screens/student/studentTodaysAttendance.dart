@@ -112,7 +112,8 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
                                       print("Pressed");
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
-                                        builder: (context) => ScanQR(),
+                                        builder: (context) => ScanQR(
+                                            snapshot.data![index]["time"]),
                                       ));
                                     },
                                     child: Container(
