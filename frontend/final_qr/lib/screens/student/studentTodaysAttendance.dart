@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'studentScanQR.dart';
 
 class TodaysAttendance extends StatefulWidget {
   _TodaysAttendanceState createState() => _TodaysAttendanceState();
@@ -56,6 +57,7 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
       _classDate = _loadClassDates(context);
     });
     return Container(
+      height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.115),
@@ -67,7 +69,7 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
               ),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           FutureBuilder<List<dynamic>>(
               future: _classDate,
               builder: (context, snapshot) {
@@ -85,58 +87,132 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
                         return Future<void>.delayed(const Duration(seconds: 3));
                       },
                       child: Container(
-                        height: 500,
+                        height: MediaQuery.of(context).size.height * 0.60,
                         child: ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-                                Container(
-                                  height: 120,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                        offset: Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            snapshot.data![index]["classroom"]
-                                                ["className"],
-                                            style: TextStyle(fontSize: 20)),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            snapshot.data![index]["time"],
-                                            style: TextStyle(fontSize: 10)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                              ],
+                            String attendanceTimeString =
+                                snapshot.data![index]["time"];
+                            TimeOfDay attendanceTime = TimeOfDay.fromDateTime(
+                              DateTime.parse(
+                                  "1970-01-01 $attendanceTimeString:00"),
                             );
+
+                            double timeNowDouble = toDouble(TimeOfDay.now());
+                            double timeAttendance = toDouble(attendanceTime);
+                            print(timeNowDouble);
+                            print(timeAttendance);
+                            if (timeNowDouble > timeAttendance &&
+                                timeNowDouble < timeAttendance + 2) {
+                              print("Attendance Now!");
+                              return Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      print("Pressed");
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => ScanQR(),
+                                      ));
+                                    },
+                                    child: Container(
+                                      height: 120,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.85,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                            offset: Offset(0,
+                                                3), // changes position of shadow
+                                          ),
+                                        ],
+                                        color: Color.fromARGB(255, 32, 182, 2),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                snapshot.data![index]
+                                                    ["classroom"]["className"],
+                                                style: TextStyle(fontSize: 20)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                snapshot.data![index]["time"],
+                                                style: TextStyle(fontSize: 10)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
+                              );
+                            } else {
+                              print("Attendance Later!");
+                              return Column(
+                                children: [
+                                  Container(
+                                    height: 120,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 5,
+                                          offset: Offset(0,
+                                              3), // changes position of shadow
+                                        ),
+                                      ],
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              snapshot.data![index]["classroom"]
+                                                  ["className"],
+                                              style: TextStyle(fontSize: 20)),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              snapshot.data![index]["time"],
+                                              style: TextStyle(fontSize: 10)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
+                              );
+                            }
                           },
                         ),
                       ),

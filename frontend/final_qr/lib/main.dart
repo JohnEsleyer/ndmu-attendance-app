@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'QRApp',
         initialRoute: "/",
         routes: {
-          '/': (context) => const Login(),
+          '/': (context) => Login(),
           '/student': (context) => StudentScreen(),
           '/teacher': (context) => TeacherScreen(),
         },

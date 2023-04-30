@@ -1,5 +1,15 @@
 package com.johnesleyer.QRApp3.Controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.util.Base64;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +24,14 @@ import com.johnesleyer.QRApp3.Entities.Teacher;
 import com.johnesleyer.QRApp3.Repositories.StudentRepository;
 import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
 @RestController
 // @RequestMapping("/api")
 public class LoginController {
@@ -25,9 +43,11 @@ public class LoginController {
     private TeacherRepository teacherRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) throws UnsupportedEncodingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
+        
+       
 
         Optional<Student> studentOptional = studentRepository.findByUsername(username);
         Optional<Teacher> teacherOptional = teacherRepository.findByUsername(username);

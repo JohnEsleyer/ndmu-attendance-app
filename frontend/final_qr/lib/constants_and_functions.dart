@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // var server = "http://127.0.0.1:8080";
 // var server = "10.0.2.2:8080";
-var server = "https://tired-suits-make-120-72-27-139.loca.lt";
+var server = "https://every-breads-lead-49-145-234-128.loca.lt";
 
 List<DateTime> getDateList(DateTime date) {
   return [
@@ -37,36 +37,6 @@ List<DateTime> getDateList(DateTime date) {
     date.subtract(Duration(days: 2)),
     date.subtract(Duration(days: 1)),
     date,
-    // date.add(Duration(days: 1)),
-    // date.add(Duration(days: 2)),
-    // date.add(Duration(days: 3)),
-    // date.add(Duration(days: 4)),
-    // date.add(Duration(days: 5)),
-    // date.add(Duration(days: 6)),
-    // date.add(Duration(days: 7)),
-    // date.add(Duration(days: 8)),
-    // date.add(Duration(days: 9)),
-    // date.add(Duration(days: 10)),
-    // date.add(Duration(days: 11)),
-    // date.add(Duration(days: 12)),
-    // date.add(Duration(days: 13)),
-    // date.add(Duration(days: 14)),
-    // date.add(Duration(days: 15)),
-    // date.add(Duration(days: 16)),
-    // date.add(Duration(days: 17)),
-    // date.add(Duration(days: 18)),
-    // date.add(Duration(days: 19)),
-    // date.add(Duration(days: 20)),
-    // date.add(Duration(days: 21)),
-    // date.add(Duration(days: 22)),
-    // date.add(Duration(days: 23)),
-    // date.add(Duration(days: 24)),
-    // date.add(Duration(days: 25)),
-    // date.add(Duration(days: 26)),
-    // date.add(Duration(days: 27)),
-    // date.add(Duration(days: 28)),
-    // date.add(Duration(days: 29)),
-    // date.add(Duration(days: 30))
   ];
 }
 
@@ -77,3 +47,5 @@ List<Color> colorList = [
   Color.fromARGB(255, 27, 196, 145),
   Color.fromARGB(255, 236, 108, 57),
 ];
+
+double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;

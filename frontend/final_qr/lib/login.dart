@@ -1,15 +1,15 @@
 import 'dart:convert';
 
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'constants_and_functions.dart';
 import 'models/userDataModel.dart';
+import 'package:encrypt/encrypt.dart' as en;
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-
   @override
   _LoginState createState() => _LoginState();
 }
@@ -156,10 +156,12 @@ class _LoginState extends State<Login> {
                                       style: TextStyle(fontSize: 20),
                                     ),
                                     onPressed: () async {
+                                      print("pressed");
                                       setState(() {
                                         _loginPressed = true;
                                         _didError = false;
                                       });
+
                                       var response = await http.post(
                                         Uri.parse('$server/login'),
                                         body: jsonEncode({
@@ -171,6 +173,7 @@ class _LoginState extends State<Login> {
                                               'application/json; charset=UTF-8',
                                         },
                                       );
+
                                       if (response.statusCode == 200) {
                                         print("success");
                                         Map<String, dynamic> map =
