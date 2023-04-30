@@ -25,12 +25,8 @@ import com.johnesleyer.QRApp3.Repositories.StudentRepository;
 import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
 
 @RestController
 // @RequestMapping("/api")

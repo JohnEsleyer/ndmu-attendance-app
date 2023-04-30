@@ -55,7 +55,7 @@ public class ClassroomController {
     public Classroom registerClassroom(@RequestBody Classroom Classroom) throws WriterException, IOException{
 
         // Create QR code for this classroom
-        String qrCodeValue = generateRandomValue(20);
+        String qrCodeValue = Classroom.getClassName() + "_" + Classroom.getId();
         String qrCodeFileName = Classroom.getClassName() + "_" + generateRandomValue(7) + ".png";
         String qrCodeFilePath = "images/" + qrCodeFileName;
         generateQRCodeImage(qrCodeValue, qrCodeFilePath);
