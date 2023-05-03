@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'viewClassroom_teacher.dart';
 import 'package:final_qr/constants_and_functions.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import "dart:io";
+import 'package:android_path_provider/android_path_provider.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ClassroomContainer extends StatelessWidget {
   String className;
@@ -132,6 +136,25 @@ class QRScreen extends StatelessWidget {
   String qrURL;
   int index;
   QRScreen({required this.qrURL, required this.index});
+
+  Future<String?> _getSavedDir() async {
+    String? externalStorageDirPath;
+
+    if (Platform.isAndroid) {
+      try {
+        externalStorageDirPath = await AndroidPathProvider.downloadsPath;
+      } catch (err, st) {
+        print("failed to get downloads path: $err, $st");
+        final directory = await getExternalStorageDirectory();
+        externalStorageDirPath = directory?.path;
+      }
+    } else if (Platform.isIOS) {
+      externalStorageDirPath =
+          (await getApplicationDocumentsDirectory()).absolute.path;
+    }
+    return externalStorageDirPath;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,7 +189,17 @@ class QRScreen extends StatelessWidget {
               style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                Future<String?> _localPath = _getSavedDir();
+                String local = _localPath.toString();
+                final task = await FlutterDownloader.enqueue(
+                  url: qrURL,
+                  headers: {},
+                  savedDir: local,
+                  showNotification: true,
+                  openFileFromNotification: true,
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
