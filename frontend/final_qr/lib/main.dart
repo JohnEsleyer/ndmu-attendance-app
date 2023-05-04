@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'models/userDataModel.dart';
 import 'screens/teacherScreen.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:final_qr/screens/admin/admin_home.dart';
+import 'screens/adminScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
