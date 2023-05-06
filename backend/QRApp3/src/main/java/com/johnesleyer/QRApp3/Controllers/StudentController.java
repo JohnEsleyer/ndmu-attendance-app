@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,4 +51,16 @@ public class StudentController {
 
         return ResponseEntity.ok(updatedStudent);
     }
+    @DeleteMapping("/delete-student")
+    public ResponseEntity<Void> deleteStudent(@RequestBody Student student) {
+        Optional<Student> optionalStudent = studentRepository.findById(student.getId());
+        if (optionalStudent.isPresent()) {
+            studentRepository.delete(optionalStudent.get());
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

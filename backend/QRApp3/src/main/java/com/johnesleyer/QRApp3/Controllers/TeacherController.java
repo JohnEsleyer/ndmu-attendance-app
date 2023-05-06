@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,21 +34,32 @@ public class TeacherController {
 
 
     @PostMapping("/update-teacher")
-public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher) {
-    Optional<Teacher> existingTeacherOptional = teacherRepository.findById(teacher.getId());
+    public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher) {
+        Optional<Teacher> existingTeacherOptional = teacherRepository.findById(teacher.getId());
 
-    if (existingTeacherOptional.isEmpty()) {
-        return ResponseEntity.notFound().build();
+        if (existingTeacherOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Teacher existingTeacher = existingTeacherOptional.get();
+        existingTeacher.setUsername(teacher.getUsername());
+        existingTeacher.setPassword(teacher.getPassword());
+        existingTeacher.setFirstName(teacher.getFirstName());
+        existingTeacher.setLastName(teacher.getLastName());
+
+        Teacher updatedTeacher = teacherRepository.save(existingTeacher);
+
+        return ResponseEntity.ok(updatedTeacher);
     }
 
-    Teacher existingTeacher = existingTeacherOptional.get();
-    existingTeacher.setUsername(teacher.getUsername());
-    existingTeacher.setPassword(teacher.getPassword());
-    existingTeacher.setFirstName(teacher.getFirstName());
-    existingTeacher.setLastName(teacher.getLastName());
-
-    Teacher updatedTeacher = teacherRepository.save(existingTeacher);
-
-    return ResponseEntity.ok(updatedTeacher);
-}
+    @DeleteMapping("/delete-teacher")
+    public ResponseEntity<Void> deleteTeacher(@RequestBody Teacher teacher) {
+        Optional<Teacher> optionalTeacher = teacherRepository.findById(teacher.getId());
+        if (optionalTeacher.isPresent()) {
+            teacherRepository.delete(optionalTeacher.get());
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
