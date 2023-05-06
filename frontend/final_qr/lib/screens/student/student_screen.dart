@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'student/studentTodaysAttendance.dart';
+import 'student_todays_attendance.dart';
 
 class StudentScreen extends StatefulWidget {
   @override

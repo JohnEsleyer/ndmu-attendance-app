@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'student/studentTodaysAttendance.dart';
-import 'admin/adminClassroomScreen.dart';
-import 'admin/adminStudentScreen.dart';
-import 'admin/adminTeacherScreen.dart';
+import '../student/student_todays_attendance.dart';
+import 'admin_classroom_screen.dart';
+import 'admin_student_screen.dart';
+import 'admin_teacher_screen.dart';
 
 class AdminScreen extends StatefulWidget {
   @override

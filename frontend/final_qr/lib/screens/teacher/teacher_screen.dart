@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'teacher/teacherClassrooms.dart';
+import 'teacher_classrooms.dart';
 
 class TeacherScreen extends StatefulWidget {
   @override
@@ -61,8 +61,8 @@ class _TeacherScreenState extends State<TeacherScreen> {
         elevation: 10,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Students',
+            icon: Icon(Icons.article),
+            label: 'Attendance Report',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

@@ -5,7 +5,7 @@ import 'package:final_qr/constants_and_functions.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:provider/provider.dart';
-import 'package:final_qr/models/userDataModel.dart';
+import 'package:final_qr/models/user_data_model.dart';
 import 'package:intl/intl.dart';
 
 class ScanQR extends StatefulWidget {

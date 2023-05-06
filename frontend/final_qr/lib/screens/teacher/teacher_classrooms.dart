@@ -1,9 +1,9 @@
-import 'package:final_qr/models/userDataModel.dart';
+import 'package:final_qr/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
-import 'package:final_qr/screens/teacher/classroomContainer.dart';
+import 'package:final_qr/screens/teacher/classroom_container.dart';
 import 'package:final_qr/constants_and_functions.dart';
 
 class TeacherClassrooms extends StatefulWidget {

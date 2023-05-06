@@ -1,4 +1,4 @@
-import 'package:final_qr/models/viewClassroomModel.dart';
+import 'package:final_qr/models/view_classroom_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
@@ -6,7 +6,7 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'viewClassroom_teacher.dart';
+import 'view_classroom_teacher.dart';
 import 'package:final_qr/constants_and_functions.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import "dart:io";

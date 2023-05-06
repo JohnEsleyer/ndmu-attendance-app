@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:final_qr/models/viewClassroomModel.dart';
+import 'package:final_qr/models/view_classroom_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:final_qr/constants_and_functions.dart';

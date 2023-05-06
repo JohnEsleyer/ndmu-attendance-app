@@ -1,4 +1,4 @@
-import 'package:final_qr/models/userDataModel.dart';
+import 'package:final_qr/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:final_qr/constants_and_functions.dart';
@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'studentScanQR.dart';
+import 'student_scanqr.dart';
 
 class TodaysAttendance extends StatefulWidget {
   _TodaysAttendanceState createState() => _TodaysAttendanceState();

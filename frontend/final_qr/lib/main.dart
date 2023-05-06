@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'screens/studentScreen.dart';
+import 'screens/student/student_screen.dart';
 import 'package:provider/provider.dart';
-import 'models/userDataModel.dart';
-import 'screens/teacherScreen.dart';
+import 'models/user_data_model.dart';
+import 'screens/teacher/teacher_screen.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'screens/adminScreen.dart';
+import 'screens/admin/admin_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

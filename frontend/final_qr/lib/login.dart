@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'constants_and_functions.dart';
-import 'models/userDataModel.dart';
+import 'models/user_data_model.dart';
 import 'package:encrypt/encrypt.dart' as en;
 
 class Login extends StatefulWidget {
