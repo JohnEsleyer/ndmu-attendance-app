@@ -9,5 +9,6 @@ import com.johnesleyer.QRApp3.Entities.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByUsername(String username);
+    Optional<Student> findById(long id);
 }
 

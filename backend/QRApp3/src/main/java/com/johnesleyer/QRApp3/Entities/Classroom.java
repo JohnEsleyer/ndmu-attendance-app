@@ -90,8 +90,4 @@ public class Classroom {
     public void setSchedule(Date schedule) {
         this.schedule = schedule;
     }
-
-
-
-    
 }

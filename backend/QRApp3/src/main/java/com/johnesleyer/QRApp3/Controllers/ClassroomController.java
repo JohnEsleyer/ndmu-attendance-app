@@ -6,10 +6,14 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -79,6 +83,40 @@ public class ClassroomController {
         return classroomRepository.findAllByTeacherId(teacherId);
     }
 
+    @PostMapping("/update-classroom")
+    public ResponseEntity<Classroom> updateClassroom(@RequestBody Classroom classroom) {
+        Optional<Classroom> existingClassroomOptional = classroomRepository.findById(classroom.getId());
 
+        if (existingClassroomOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Classroom existingClassroom = existingClassroomOptional.get();
+        existingClassroom.setClassName(classroom.getClassName());
+        existingClassroom.setDefaultTime(classroom.getDefaultTime());
+        existingClassroom.setQrURL(classroom.getQrURL());
+        existingClassroom.setQrValue(classroom.getQrValue());
+        existingClassroom.setSchedule(classroom.getSchedule());
+        existingClassroom.setTeacher(classroom.getTeacher());
+
+        Classroom updatedClassroom = classroomRepository.save(existingClassroom);
+
+        return ResponseEntity.ok(updatedClassroom);
+    }
+
+
+    @DeleteMapping("/delete-classroom")
+    public ResponseEntity<Void> deleteClassroom(@RequestBody Classroom classroom) {
+        Optional<Classroom> optionalClassroom = classroomRepository.findById(classroom.getId());
+        if (optionalClassroom.isPresent()) {
+            classroomRepository.delete(optionalClassroom.get());
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    
 
 }
