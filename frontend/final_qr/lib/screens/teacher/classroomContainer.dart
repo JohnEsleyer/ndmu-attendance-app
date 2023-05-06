@@ -1,12 +1,19 @@
 import 'package:final_qr/models/viewClassroomModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'viewClassroom_teacher.dart';
 import 'package:final_qr/constants_and_functions.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import "dart:io";
 import 'package:android_path_provider/android_path_provider.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:path/path.dart' as path;
+import 'package:http/http.dart' as http;
 
 class ClassroomContainer extends StatelessWidget {
   String className;
@@ -137,24 +144,6 @@ class QRScreen extends StatelessWidget {
   int index;
   QRScreen({required this.qrURL, required this.index});
 
-  Future<String?> _getSavedDir() async {
-    String? externalStorageDirPath;
-
-    if (Platform.isAndroid) {
-      try {
-        externalStorageDirPath = await AndroidPathProvider.downloadsPath;
-      } catch (err, st) {
-        print("failed to get downloads path: $err, $st");
-        final directory = await getExternalStorageDirectory();
-        externalStorageDirPath = directory?.path;
-      }
-    } else if (Platform.isIOS) {
-      externalStorageDirPath =
-          (await getApplicationDocumentsDirectory()).absolute.path;
-    }
-    return externalStorageDirPath;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,15 +179,28 @@ class QRScreen extends StatelessWidget {
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
               ),
               onPressed: () async {
-                Future<String?> _localPath = _getSavedDir();
-                String local = _localPath.toString();
-                final task = await FlutterDownloader.enqueue(
-                  url: qrURL,
-                  headers: {},
-                  savedDir: local,
-                  showNotification: true,
-                  openFileFromNotification: true,
-                );
+                // print("pressed");
+                // launchUrl(Uri.parse(qrURL));
+                try {
+                  final http.Response response =
+                      await http.get(Uri.parse(qrURL));
+                  final dir = await getTemporaryDirectory();
+                  var filename = '${dir.path}/image.png';
+                  final file = File(filename);
+                  await file.writeAsBytes(response.bodyBytes);
+
+                  final params =
+                      SaveFileDialogParams(sourceFilePath: file.path);
+                  final finalPath =
+                      await FlutterFileDialog.saveFile(params: params);
+
+                  if (finalPath != null) {
+                    print('Image saved to disk');
+                  }
+                } catch (e) {
+                  print(e.toString());
+                  print('An error occured while saving the image');
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
