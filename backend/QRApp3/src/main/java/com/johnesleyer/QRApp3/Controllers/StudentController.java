@@ -1,7 +1,9 @@
 package com.johnesleyer.QRApp3.Controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,5 +29,25 @@ public class StudentController {
     @GetMapping("/all-students")
     public List<Student> getAllStudents(){
         return studentRepository.findAll();
+    }
+
+    @PostMapping("/update-student")
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        Optional<Student> existingStudentOptional = studentRepository.findById(student.getId());
+
+        if (existingStudentOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Student existingStudent = existingStudentOptional.get();
+        existingStudent.setUsername(student.getUsername());
+        existingStudent.setPassword(student.getPassword());
+        existingStudent.setFirstName(student.getFirstName());
+        existingStudent.setLastName(student.getLastName());
+        existingStudent.setSchoolYear(student.getSchoolYear());
+
+        Student updatedStudent = studentRepository.save(existingStudent);
+
+        return ResponseEntity.ok(updatedStudent);
     }
 }

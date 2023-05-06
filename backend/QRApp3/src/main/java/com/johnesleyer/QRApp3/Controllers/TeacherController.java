@@ -1,7 +1,9 @@
 package com.johnesleyer.QRApp3.Controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,4 +30,24 @@ public class TeacherController {
     public List<Teacher> getAllTeachers(){
         return teacherRepository.findAll();
     }
+
+
+    @PostMapping("/update-teacher")
+public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher) {
+    Optional<Teacher> existingTeacherOptional = teacherRepository.findById(teacher.getId());
+
+    if (existingTeacherOptional.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Teacher existingTeacher = existingTeacherOptional.get();
+    existingTeacher.setUsername(teacher.getUsername());
+    existingTeacher.setPassword(teacher.getPassword());
+    existingTeacher.setFirstName(teacher.getFirstName());
+    existingTeacher.setLastName(teacher.getLastName());
+
+    Teacher updatedTeacher = teacherRepository.save(existingTeacher);
+
+    return ResponseEntity.ok(updatedTeacher);
+}
 }
