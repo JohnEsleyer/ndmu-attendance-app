@@ -53,6 +53,13 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                 ),
               );
             } else {
+              bool firstTime = Provider.of<TeacherData>(context).isFirstTime;
+              if (!firstTime) {
+                Provider.of<TeacherData>(context).emptyClassroom();
+              } else {
+                Provider.of<TeacherData>(context).setFirstTime(false);
+              }
+
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
                 itemCount: snapshot.data.length,
@@ -62,7 +69,9 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                   var classId = snapshot.data[index]["id"];
                   // var schedule = snapshot.data[index]['schedule'];
                   // var defaultTime = snapshot.data[index]['defaultTime'];
+
                   Provider.of<TeacherData>(context).appendClassroom(className);
+                  Provider.of<TeacherData>(context).appendClassroomID(classId);
                   print(qrURL);
                   return ClassroomContainer(
                     className: className,
