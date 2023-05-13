@@ -1,3 +1,4 @@
+import 'package:final_qr/widgets/DelayedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:final_qr/widgets/teacher_greenwhite_container.dart';
 import 'dart:convert';
@@ -53,7 +54,7 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                 children: [
                   SizedBox(height: 15),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       DropdownButton<String>(
                         value: _dropdownValue,
@@ -78,7 +79,7 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 5),
                   FutureBuilder<List<dynamic>>(
                       future: fetchStudentsByClass(
                           teacherData.getClassroomID[_indexValue]),
@@ -92,22 +93,66 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                             ),
                           );
                         } else {
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              // var className =
-                              //     snapshot.data[index]['className'];
-                              // var qrURL = snapshot.data[index]['qrURL'];
-                              // var classId = snapshot.data[index]["id"];
-                              // var schedule = snapshot.data[index]['schedule'];
-                              // var defaultTime = snapshot.data[index]['defaultTime'];
-                              String firstName =
-                                  snapshot.data[index]['student']["firstName"];
-                              return Container(
-                                child: Text(firstName),
-                              );
-                            },
+                          return Expanded(
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // var className =
+                                //     snapshot.data[index]['className'];
+                                // var qrURL = snapshot.data[index]['qrURL'];
+                                // var classId = snapshot.data[index]["id"];
+                                // var schedule = snapshot.data[index]['schedule'];
+                                // var defaultTime = snapshot.data[index]['defaultTime'];
+                                String firstName = snapshot.data[index]
+                                    ['student']["firstName"];
+                                String lastName =
+                                    snapshot.data[index]['student']["lastName"];
+                                return Column(
+                                  children: [
+                                    DelayedWidget(
+                                      child: Container(
+                                          height: 0.10 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                          width: 0.90 *
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 2,
+                                                blurRadius: 5,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "$lastName, $firstName",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                );
+                              },
+                            ),
                           );
                         }
                       }),
