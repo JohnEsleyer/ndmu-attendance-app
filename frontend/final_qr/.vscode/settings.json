@@ -1,3 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "/media/john/632E12F06D7D80DE/ProjectDocuments/NDMU3/NDMU-Attendance-App/frontend/final_qr/windows"
 }

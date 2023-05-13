@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'teacher_classrooms.dart';
+import 'teacher_attendance_report_screen.dart';
+import 'package:final_qr/models/teacher_data_model.dart';
 
 class TeacherScreen extends StatefulWidget {
   @override
@@ -11,23 +14,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _screenOptions = <Widget>[
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              const Text(
-                "Student Attendance Report",
-                style: TextStyle(
-                  fontSize: 30,
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
+      AttendanceReportScreen(),
       TeacherClassrooms(),
       Container(
         child: Padding(
@@ -55,27 +42,30 @@ class _TeacherScreenState extends State<TeacherScreen> {
       });
     }
 
-    return Scaffold(
-      body: _screenOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: 'Attendance Report',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Personal Info',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green[800],
-        onTap: _onItemTapped,
+    return ChangeNotifierProvider(
+      create: (_) => TeacherData(),
+      child: Scaffold(
+        body: _screenOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 10,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.article),
+              label: 'Attendance Report',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.meeting_room),
+              label: 'My Classrooms',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.green[800],
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

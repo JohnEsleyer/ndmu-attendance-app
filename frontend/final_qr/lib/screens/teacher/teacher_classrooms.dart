@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:final_qr/screens/teacher/classroom_container.dart';
 import 'package:final_qr/constants_and_functions.dart';
+import 'package:final_qr/widgets/teacher_greenwhite_container.dart';
+import 'package:final_qr/models/teacher_data_model.dart';
 
 class TeacherClassrooms extends StatefulWidget {
   @override
@@ -36,74 +38,42 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
   }
 
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green[900],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Center(
-              child: const Text(
-                "Classrooms",
-                style: TextStyle(
-                  fontSize: 50,
-                  color: Colors.white,
+    return GreenWhiteContainer(
+      fontSize: 50,
+      title: "Classrooms",
+      child: FutureBuilder<List<dynamic>>(
+          future: fetchClasses(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Container(
+                height: 30,
+                width: 30,
+                child: const CircularProgressIndicator(
+                  color: Colors.green,
                 ),
-              ),
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-              ),
-              width: MediaQuery.of(context).size.width,
-              child: Expanded(
-                child: Center(
-                  child: FutureBuilder<List<dynamic>>(
-                      future: fetchClasses(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (!snapshot.hasData) {
-                          return Container(
-                            height: 30,
-                            width: 30,
-                            child: const CircularProgressIndicator(
-                              color: Colors.green,
-                            ),
-                          );
-                        } else {
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var className = snapshot.data[index]['className'];
-                              var qrURL = snapshot.data[index]['qrURL'];
-                              var classId = snapshot.data[index]["id"];
-                              // var schedule = snapshot.data[index]['schedule'];
-                              // var defaultTime = snapshot.data[index]['defaultTime'];
-                              print(qrURL);
-                              return ClassroomContainer(
-                                className: className,
-                                qrURL: qrURL,
-                                index: index,
-                                classId: classId,
-                              );
-                            },
-                          );
-                        }
-                      }),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+              );
+            } else {
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var className = snapshot.data[index]['className'];
+                  var qrURL = snapshot.data[index]['qrURL'];
+                  var classId = snapshot.data[index]["id"];
+                  // var schedule = snapshot.data[index]['schedule'];
+                  // var defaultTime = snapshot.data[index]['defaultTime'];
+                  Provider.of<TeacherData>(context).appendClassroom(className);
+                  print(qrURL);
+                  return ClassroomContainer(
+                    className: className,
+                    qrURL: qrURL,
+                    index: index,
+                    classId: classId,
+                  );
+                },
+              );
+            }
+          }),
     );
   }
 }
