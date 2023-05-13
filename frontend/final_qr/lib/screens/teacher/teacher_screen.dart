@@ -57,10 +57,6 @@ class _TeacherScreenState extends State<TeacherScreen> {
               icon: Icon(Icons.meeting_room),
               label: 'My Classrooms',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.green[800],

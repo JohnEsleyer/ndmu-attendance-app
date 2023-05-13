@@ -5,6 +5,16 @@ class TeacherData extends ChangeNotifier {
   bool _firstTime = true;
   List<String> _classrooms = [];
   List<int> _classroomIDs = [];
+
+  String _selectedText = "";
+
+  void setSelected(String str) {
+    _selectedText = str;
+    notifyListeners();
+  }
+
+  String get getSelected => _selectedText;
+
   void appendClassroom(String classroom) {
     _classrooms.add(classroom);
   }

@@ -72,6 +72,10 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
 
                   Provider.of<TeacherData>(context).appendClassroom(className);
                   Provider.of<TeacherData>(context).appendClassroomID(classId);
+                  if (index == 0) {
+                    Provider.of<TeacherData>(context).setSelected(
+                        Provider.of<TeacherData>(context).getClassrooms[0]);
+                  }
                   print(qrURL);
                   return ClassroomContainer(
                     className: className,

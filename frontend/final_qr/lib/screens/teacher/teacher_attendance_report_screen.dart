@@ -57,49 +57,56 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 60),
                       child: Center(
-                        child: Text(
-                          'Attendance Report',
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: TitleWidget(),
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        Text("Classroom Picker",
+                            style: TextStyle(color: Colors.white)),
                         Flexible(
-                          child: DropdownButton<String>(
-                            dropdownColor: Colors.green,
-                            value: _dropdownValue,
-                            underline: Container(
-                              height: 2,
-                              color: Colors.white,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              highlightColor: Colors.green,
                             ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _dropdownValue = value ?? '';
-                                _indexValue = teacherData.getClassrooms
-                                    .indexWhere((element) => element == value);
-                                print(_dropdownValue);
-                              });
-                            },
-                            items: teacherData.getClassrooms
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              );
-                            }).toList(),
+                            child: PopupMenuButton<String>(
+                              padding: EdgeInsets.all(3.0),
+                              icon:
+                                  Icon(Icons.expand_more, color: Colors.white),
+                              color: Colors.green,
+                              initialValue: _dropdownValue,
+                              itemBuilder: (BuildContext context) {
+                                return teacherData.getClassrooms
+                                    .map((String value) {
+                                  return PopupMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                }).toList();
+                              },
+                              onSelected: (String value) {
+                                setState(() {
+                                  _dropdownValue = value;
+                                  _indexValue = teacherData.getClassrooms
+                                      .indexWhere(
+                                          (element) => element == value);
+                                  Provider.of<TeacherData>(context,
+                                          listen: false)
+                                      .setSelected(_dropdownValue);
+                                  print(_dropdownValue);
+                                });
+                              },
+                            ),
                           ),
                         ),
+                        SizedBox(width: 10),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 5),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
@@ -125,6 +132,24 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                                     ),
                                   );
                                 } else {
+                                  if (snapshot.data.length == 0) {
+                                    return Center(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.sentiment_dissatisfied,
+                                          ),
+                                          Text(
+                                            "No Students Found",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+
                                   return Expanded(
                                     child: ListView.builder(
                                       physics: BouncingScrollPhysics(),
@@ -214,5 +239,22 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
         ),
       );
     });
+  }
+}
+
+class TitleWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<TeacherData>(
+      builder: (context, value, child) {
+        return Text(
+          value.getSelected,
+          style: TextStyle(
+            fontSize: 40,
+            color: Colors.white,
+          ),
+        );
+      },
+    );
   }
 }
