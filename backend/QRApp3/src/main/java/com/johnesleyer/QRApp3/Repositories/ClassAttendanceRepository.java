@@ -10,4 +10,5 @@ import com.johnesleyer.QRApp3.Entities.Classroom;
 
 public interface ClassAttendanceRepository extends JpaRepository<ClassAttendance, Integer>{
     List<ClassAttendance> findByDateAndClassroom(Date date, Classroom classroom);
+    List<ClassAttendance> findByStudentId(Long studentId);
 }
