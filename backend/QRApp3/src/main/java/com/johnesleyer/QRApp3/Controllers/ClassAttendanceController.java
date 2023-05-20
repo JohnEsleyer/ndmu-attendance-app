@@ -131,9 +131,12 @@ public class ClassAttendanceController {
 
         for (StudentClassroom studentClassroom : studentClassrooms) {
             Long studentId = studentClassroom.getStudent().getId();
-
+            String studentFirstName = studentClassroom.getStudent().getFirstName();
+            String studentLastName = studentClassroom.getStudent().getLastName();
             Map<String, Object> studentStatus = new HashMap<>();
-            studentStatus.put("student", Map.of("id", studentId));
+            // studentStatus.put("student", Map.of("id", studentId));
+            studentStatus.put("studentFirst", Map.of("firstName", studentFirstName));
+            studentStatus.put("studentLast", Map.of("lastName", studentLastName));
 
             int presentCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "present");
             int absentCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "absent");

@@ -59,7 +59,8 @@ public class AttendanceReportGenerator {
         htmlBuilder.append("<h1>Attendance Report</h1>\n");
         htmlBuilder.append("<table>\n");
         htmlBuilder.append("<tr>\n");
-        htmlBuilder.append("<th>Student ID</th>\n");
+        htmlBuilder.append("<th>Student First Name</th>\n");
+        htmlBuilder.append("<th>Student Last Name</th>\n");
         htmlBuilder.append("<th>Present</th>\n");
         htmlBuilder.append("<th>Absent</th>\n");
         htmlBuilder.append("<th>Late</th>\n");
@@ -67,13 +68,16 @@ public class AttendanceReportGenerator {
 
         // Add attendance data to the table
         for (Map<String, Object> studentStatus : attendanceData) {
-            Long studentId = ((Number) ((Map<String, Object>) studentStatus.get("student")).get("id")).longValue();
+            // Long studentId = ((Number) ((Map<String, Object>) studentStatus.get("student")).get("id")).longValue();
             int presentCount = (int) studentStatus.get("present");
             int absentCount = (int) studentStatus.get("absent");
             int lateCount = (int) studentStatus.get("late");
+            String studentFirst = (String) ((Map<String, Object>) studentStatus.get("studentFirst")).get("firstName");
+            String studentLast = (String) ((Map<String, Object>) studentStatus.get("studentLast")).get("lastName");
 
             htmlBuilder.append("<tr>\n");
-            htmlBuilder.append("<td>").append(studentId).append("</td>\n");
+            htmlBuilder.append("<td>").append(studentFirst).append("</td>\n");
+            htmlBuilder.append("<td>").append(studentLast).append("</td>\n");
             htmlBuilder.append("<td>").append(presentCount).append("</td>\n");
             htmlBuilder.append("<td>").append(absentCount).append("</td>\n");
             htmlBuilder.append("<td>").append(lateCount).append("</td>\n");
