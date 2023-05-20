@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:final_qr/models/student_report_model.dart';
 import 'package:final_qr/widgets/DelayedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:final_qr/widgets/teacher_greenwhite_container.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:final_qr/models/user_data_model.dart';
@@ -47,7 +51,26 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
         mini: false,
         backgroundColor: Colors.green[900],
         child: Icon(Icons.picture_as_pdf),
-        onPressed: () {},
+        onPressed: () async {
+          try {
+            final http.Response response =
+                await http.get(Uri.parse("$server/pdf/attendance_report.pdf"));
+            final dir = await getTemporaryDirectory();
+            var filename = '${dir.path}/attendance_report.pdf';
+            final file = File(filename);
+            await file.writeAsBytes(response.bodyBytes);
+
+            final params = SaveFileDialogParams(sourceFilePath: file.path);
+            final finalPath = await FlutterFileDialog.saveFile(params: params);
+
+            if (finalPath != null) {
+              print('PDF saved to disk');
+            }
+          } catch (e) {
+            print(e.toString());
+            print('An error occured while saving the image');
+          }
+        },
       ),
       body: Consumer<TeacherData>(builder: (context, teacherData, child) {
         return Container(
