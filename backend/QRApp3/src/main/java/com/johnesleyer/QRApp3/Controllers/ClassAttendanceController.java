@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,6 +81,26 @@ public class ClassAttendanceController {
         response.put("student", requestBody.get("student"));
         response.putAll(counts);
     
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/status-by-student-classroom")
+    public ResponseEntity<Map<String, Object>> getStatusByStudentClassroom(@RequestBody Map<String, Object> request) {
+        Long studentId = ((Number) ((Map<String, Object>) request.get("student")).get("id")).longValue();
+        Long classroomId = ((Number) ((Map<String, Object>) request.get("classroom")).get("id")).longValue();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("student", request.get("student"));
+
+        // Count attendance by status
+        int presentCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "present");
+        int absentCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "absent");
+        int lateCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "late");
+
+        response.put("present", presentCount);
+        response.put("absent", absentCount);
+        response.put("late", lateCount);
+
         return ResponseEntity.ok(response);
     }
     
