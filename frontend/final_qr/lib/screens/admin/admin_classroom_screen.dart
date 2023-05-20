@@ -56,7 +56,14 @@ class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateClassroom(),
+            ),
+          );
+        },
         child: Icon(
           Icons.add,
         ),
@@ -72,6 +79,20 @@ class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
               ),
             )
           : _buildClassroomList(),
+    );
+  }
+}
+
+class CreateClassroom extends StatefulWidget {
+  @override
+  _CreateClassroomState createState() => _CreateClassroomState();
+}
+
+class _CreateClassroomState extends State<CreateClassroom> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(),
     );
   }
 }

@@ -54,7 +54,14 @@ class _AdminTeacherScreenState extends State<AdminTeacherScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateTeacher(),
+            ),
+          );
+        },
         child: Icon(
           Icons.add,
         ),
@@ -70,6 +77,20 @@ class _AdminTeacherScreenState extends State<AdminTeacherScreen> {
               ),
             )
           : _buildTeacherList(),
+    );
+  }
+}
+
+class CreateTeacher extends StatefulWidget {
+  @override
+  _CreateTeacherState createState() => _CreateTeacherState();
+}
+
+class _CreateTeacherState extends State<CreateTeacher> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(),
     );
   }
 }

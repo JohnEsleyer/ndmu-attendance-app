@@ -1,5 +1,8 @@
 package com.johnesleyer.QRApp3.Entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,9 +17,14 @@ public class Student {
     private String firstName;
     private String lastName;
     private int schoolYear;
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private ClassAttendance classAttendance;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<StudentClassroom> studentClassrooms;
     
     // Getters and setters
-
     public long getId() {
         return this.id;
     }

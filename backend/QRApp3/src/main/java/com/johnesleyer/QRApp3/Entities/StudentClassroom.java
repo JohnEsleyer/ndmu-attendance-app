@@ -11,7 +11,7 @@ public class StudentClassroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne 
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "student_id")
     private Student student;
 

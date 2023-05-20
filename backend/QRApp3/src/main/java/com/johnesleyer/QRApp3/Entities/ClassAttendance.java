@@ -22,7 +22,7 @@ public class ClassAttendance {
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-    @OneToOne 
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "student_id")
     private Student student;
 
