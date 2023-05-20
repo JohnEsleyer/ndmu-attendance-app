@@ -13,8 +13,8 @@ public class ClassDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne 
-    @JoinColumn(name = "classroom_id")
+    @ManyToOne
+    @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;
 
     @JsonFormat(pattern = "MM/dd/yyyy")

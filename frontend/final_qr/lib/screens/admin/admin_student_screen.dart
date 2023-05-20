@@ -72,6 +72,7 @@ class _AdminStudentScreenState extends State<AdminStudentScreen> {
                               print("Error ${response.body}");
                             }
                             Navigator.pop(context);
+                            setState(() {});
                           },
                           child: Text(
                             'Yes',

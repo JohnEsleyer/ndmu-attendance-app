@@ -19,7 +19,7 @@ public class ClassAttendance {
     private String time;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id")
+    @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;
 
     @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)

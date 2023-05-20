@@ -3,6 +3,7 @@ package com.johnesleyer.QRApp3.Entities;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,7 +16,7 @@ public class Classroom {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
 
-   @ManyToOne 
+   @ManyToOne(cascade = CascadeType.REMOVE)
    @JoinColumn(name = "teacher_id")
    private Teacher teacher; 
 
@@ -31,6 +32,18 @@ public class Classroom {
    
    private String qrURL;
    private String qrValue;
+
+   @OneToMany(mappedBy = "classroom", cascade = CascadeType.REMOVE)
+   private List<StudentClassroom> studentClassrooms;
+
+   @OneToMany(mappedBy = "classroom", cascade = CascadeType.REMOVE)
+   private List<ClassDate> classDates;
+
+   @OneToMany(mappedBy = "classroom", cascade = CascadeType.REMOVE)
+   private List<ClassAttendance> classAttendances;
+
+   
+  
 
 
     public String getQrURL() {

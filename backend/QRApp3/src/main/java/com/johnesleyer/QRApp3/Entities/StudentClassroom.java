@@ -16,8 +16,9 @@ public class StudentClassroom {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id")
+    @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;
+
 
     
 
