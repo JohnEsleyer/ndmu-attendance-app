@@ -151,80 +151,12 @@ class _CreateClassroomState extends State<CreateClassroom> {
     super.dispose();
   }
 
-  Future<void> _submitForm() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    final className = _className.text;
-    final teacherId = _teacherId.text;
-
-    final data = {
-      'className': className,
-      'teacher': {'id': teacherId},
-    };
-
-    final response = await http.post(
-      Uri.parse('$server/register-classroom'),
-      body: jsonEncode(data),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (response.statusCode == 200) {
-      // Successful registration
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Registration Successful'),
-            content: Text('Your account has been registered.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      // Failed registration
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Registration Failed'),
-            content: Text('Failed to register your account.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Create New Classroom'),
+        backgroundColor: Colors.green[900],
       ),
       body: _isLoading
           ? Center(
@@ -250,29 +182,146 @@ class _CreateClassroomState extends State<CreateClassroom> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 16),
-                        TextFormField(
-                          controller: _teacherId,
-                          decoration: InputDecoration(
-                            labelText: 'ID of the teacher',
-                          ),
-                          obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter the ID of the teacher';
-                            }
-                            return null;
-                          },
-                        ),
                         SizedBox(height: 32),
                         ElevatedButton(
-                          onPressed: _submitForm,
-                          child: Text('Create Classroom'),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    SelectTeacher(className: _className.text)));
+                          },
+                          child: Text('Next'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green[900],
+                          ),
                         ),
                       ],
                     )),
               ),
             ),
+    );
+  }
+}
+
+class SelectTeacher extends StatefulWidget {
+  String className;
+  SelectTeacher({required this.className});
+  @override
+  _SelectTeacherState createState() => _SelectTeacherState();
+}
+
+class _SelectTeacherState extends State<SelectTeacher> {
+  bool _isLoading = true;
+  List<dynamic> _teachers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchteachers();
+  }
+
+  Future<void> _fetchteachers() async {
+    final response = await http.get(Uri.parse('$server/all-teachers'));
+
+    if (response.statusCode == 200) {
+      print("Success");
+      final data = jsonDecode(response.body) as List<dynamic>;
+      setState(() {
+        _teachers = data;
+        _isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load teachers');
+    }
+  }
+
+  Widget _buildTeacherList() {
+    return ListView.builder(
+      itemCount: _teachers.length,
+      itemBuilder: (BuildContext context, int index) {
+        final teacher = _teachers[index];
+        return GestureDetector(
+          onTap: () async {
+            final url = Uri.parse('$server/register-classroom');
+            final payload = json.encode({
+              'className': widget.className,
+              'teacher': {'id': teacher['id']},
+            });
+
+            final response = await http.post(
+              url,
+              headers: {'Content-Type': 'application/json'},
+              body: payload,
+            );
+
+            if (response.statusCode == 200) {
+              // Request was successful
+              print('Classroom registered successfully!');
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Classroom created successfully!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              // Something went wrong
+              print('Error registering classroom: ${response.reasonPhrase}');
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Classroom creation failed!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+          child: Card(
+            elevation: 3,
+            child: ListTile(
+              title: Text('${teacher['lastName']}, ${teacher['firstName']}'),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green[900],
+        title: Text('Select Classroom Teacher'),
+      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Colors.green,
+              ),
+            )
+          : _buildTeacherList(),
     );
   }
 }
