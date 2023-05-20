@@ -115,7 +115,7 @@ public class ClassAttendanceController {
     }
 
 
-    @GetMapping("/students-status-by-classroom")
+    @PostMapping("/students-status-by-classroom")
     public ResponseEntity<List<Map<String, Object>>> getStudentsStatusByClassroom(@RequestBody Map<String, Object> request) {
         Long classroomId = ((Number) ((Map<String, Object>) request.get("classroom")).get("id")).longValue();
 

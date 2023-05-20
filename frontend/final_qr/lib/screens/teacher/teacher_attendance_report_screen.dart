@@ -8,7 +8,6 @@ import 'package:final_qr/models/user_data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:final_qr/constants_and_functions.dart';
 import 'package:final_qr/models/teacher_data_model.dart';
-import 'teacher_student_report.dart';
 
 class AttendanceReportScreen extends StatefulWidget {
   @override
@@ -20,7 +19,7 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
   int _indexValue = 0;
   Future<List<dynamic>> fetchStudentsByClass(int classId) async {
     final response = await http.post(
-      Uri.parse('$server/all-students-by-classroom'),
+      Uri.parse('$server/students-status-by-classroom'),
       body: jsonEncode({
         "classroom": {
           "id": classId,
@@ -175,68 +174,46 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
 
                                         return Column(
                                           children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                    return ChangeNotifierProvider(
-                                                      create: (context) =>
-                                                          StudentReportData(
-                                                        firstName: firstName,
-                                                        lastName: lastName,
-                                                        id: studentId,
-                                                        year: schoolYear,
-                                                      ),
-                                                      child:
-                                                          ReportGeneratorScreen(),
-                                                    );
-                                                  }),
-                                                );
-                                              },
-                                              child: Container(
-                                                  height: 0.10 *
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .height,
-                                                  width: 0.90 *
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
-                                                  decoration: BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.5),
-                                                        spreadRadius: 2,
-                                                        blurRadius: 5,
-                                                        offset: Offset(0,
-                                                            3), // changes position of shadow
-                                                      ),
-                                                    ],
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 2.0,
+                                            Container(
+                                                height: 0.10 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height,
+                                                width: 0.90 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width,
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      spreadRadius: 2,
+                                                      blurRadius: 5,
+                                                      offset: Offset(0,
+                                                          3), // changes position of shadow
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(10),
+                                                  ],
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 2.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "$lastName, $firstName",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
                                                     ),
                                                   ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text(
-                                                      "$lastName, $firstName",
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                  )),
-                                            ),
+                                                )),
                                             SizedBox(height: 10),
                                           ],
                                         );
