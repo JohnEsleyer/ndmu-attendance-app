@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Classroom Attendance Report</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .present {
+        color: green;
+        font-weight: bold;
+      }
+      .absent {
+        color: red;
+        font-weight: bold;
+      }
+      .late {
+        color: orange;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Classroom Attendance Report</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Attendance Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td class="present">Present</td>
+        </tr>
+        <tr>
+          <td>Jane Smith</td>
+          <td class="absent">Absent</td>
+        </tr>
+        <tr>
+          <td>Bob Johnson</td>
+          <td class="late">Late</td>
+        </tr>
+        <tr>
+          <td>Sara Lee</td>
+          <td class="present">Present</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Total Students: 4</p>
+    <p>Present: 2</p>
+    <p>Absent: 1</p>
+    <p>Late: 1</p>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Classroom Attendance Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .present {
+            color: green;
+            font-weight: bold;
+        }
+        .absent {
+            color: red;
+            font-weight: bold;
+        }
+        .late {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Classroom Attendance Report</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Student Name</th>
+        <th>Attendance Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="studentStatus : ${response}">
+        <td th:text="${studentStatus.student.id}"></td>
+        <td th:text="${studentStatus.present > 0 ? 'Present' : studentStatus.absent > 0 ? 'Absent' : 'Late'}"
+            th:class="${studentStatus.present > 0 ? 'present' : studentStatus.absent > 0 ? 'absent' : 'late'}"></td>
+    </tr>
+    </tbody>
+</table>
+<p>Total Students: <span th:text="${response.size()}"></span></p>
+<p>Present: <span th:text="${response.stream().mapToInt(studentStatus -> studentStatus.present).sum()}"></span></p>
+<p>Absent: <span th:text="${response.stream().mapToInt(studentStatus -> studentStatus.absent).sum()}"></span></p>
+<p>Late: <span th:text="${response.stream().mapToInt(studentStatus -> studentStatus.late).sum()}"></span></p>
+</body>
+</html>

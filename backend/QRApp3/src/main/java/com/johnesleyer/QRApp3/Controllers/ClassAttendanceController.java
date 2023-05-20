@@ -3,6 +3,13 @@ package com.johnesleyer.QRApp3.Controllers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +35,8 @@ import com.johnesleyer.QRApp3.Repositories.StudentClassroomRepository;
 @RestController
 public class ClassAttendanceController {
     private final ClassAttendanceRepository classAttendanceRepository;
+    
+
 
     @Autowired
     private final StudentClassroomRepository studentClassroomRepository;
@@ -110,6 +121,7 @@ public class ClassAttendanceController {
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/students-status-by-classroom")
     public ResponseEntity<List<Map<String, Object>>> getStudentsStatusByClassroom(@RequestBody Map<String, Object> request) {
         Long classroomId = ((Number) ((Map<String, Object>) request.get("classroom")).get("id")).longValue();
@@ -134,7 +146,10 @@ public class ClassAttendanceController {
             response.add(studentStatus);
         }
 
+        AttendanceReportGenerator.generateHTMLFile(response);
         return ResponseEntity.ok(response);
     }
+
+
     
 }
