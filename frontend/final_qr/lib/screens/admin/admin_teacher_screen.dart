@@ -231,7 +231,8 @@ class _CreateTeacherState extends State<CreateTeacher> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Register Teacher'),
+        backgroundColor: Colors.green[900],
       ),
       body: _isLoading
           ? Center(
@@ -300,7 +301,10 @@ class _CreateTeacherState extends State<CreateTeacher> {
                         SizedBox(height: 32),
                         ElevatedButton(
                           onPressed: _submitForm,
-                          child: Text('Sign Up'),
+                          child: Text('Register'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green[900],
+                          ),
                         ),
                       ],
                     )),

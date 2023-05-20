@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.johnesleyer.QRApp3.Entities.Classroom;
 import com.johnesleyer.QRApp3.Entities.Teacher;
 import com.johnesleyer.QRApp3.Repositories.TeacherRepository;
 
@@ -56,6 +57,14 @@ public class TeacherController {
     public ResponseEntity<Void> deleteTeacher(@RequestBody Teacher teacher) {
         Optional<Teacher> optionalTeacher = teacherRepository.findById(teacher.getId());
         if (optionalTeacher.isPresent()) {
+            Teacher existingTeacher = optionalTeacher.get();
+        
+            // Remove the teacher association from classrooms
+            List<Classroom> classrooms = existingTeacher.getClassrooms();
+            for (Classroom classroom : classrooms) {
+                classroom.setTeacher(null);
+            }
+
             teacherRepository.delete(optionalTeacher.get());
             return ResponseEntity.ok().build();
         } else {

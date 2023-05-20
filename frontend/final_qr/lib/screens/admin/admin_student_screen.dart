@@ -245,7 +245,8 @@ class _CreateStudentState extends State<CreateStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Register Student'),
+        backgroundColor: Colors.green[900],
       ),
       body: _isLoading
           ? Center(
@@ -326,7 +327,10 @@ class _CreateStudentState extends State<CreateStudent> {
                         SizedBox(height: 32),
                         ElevatedButton(
                           onPressed: _submitForm,
-                          child: Text('Sign Up'),
+                          child: Text('Register'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green[900],
+                          ),
                         ),
                       ],
                     )),

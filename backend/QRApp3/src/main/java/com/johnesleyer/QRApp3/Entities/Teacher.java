@@ -2,6 +2,8 @@ package com.johnesleyer.QRApp3.Entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,8 +19,17 @@ public class Teacher {
     private String lastName;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Classroom> classrooms;
 
+
+    public List<Classroom> getClassrooms() {
+        return classrooms;
+    }
+
+    public void setClassrooms(List<Classroom> classrooms) {
+        this.classrooms = classrooms;
+    }
 
     public long getId() {
         return this.id;

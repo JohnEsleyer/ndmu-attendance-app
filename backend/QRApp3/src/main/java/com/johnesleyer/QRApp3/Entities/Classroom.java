@@ -16,10 +16,9 @@ public class Classroom {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
 
-   @ManyToOne(cascade = CascadeType.REMOVE)
+   @ManyToOne
    @JoinColumn(name = "teacher_id")
-   private Teacher teacher; 
-
+   private Teacher teacher;
 
     // The default schedule, set during the creation of the classroom
    @JsonFormat(pattern = "MM/dd/yyyy")
