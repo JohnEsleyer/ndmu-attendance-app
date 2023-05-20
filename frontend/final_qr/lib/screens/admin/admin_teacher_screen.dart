@@ -11,23 +11,22 @@ class AdminTeacherScreen extends StatefulWidget {
 
 class _AdminTeacherScreenState extends State<AdminTeacherScreen> {
   bool _isLoading = true;
-  List<String> _teachers = [];
+  List<dynamic> _teachers = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchTeachers();
+    _fetchteachers();
   }
 
-  Future<void> _fetchTeachers() async {
+  Future<void> _fetchteachers() async {
     final response = await http.get(Uri.parse('$server/all-teachers'));
 
     if (response.statusCode == 200) {
+      print("Success");
       final data = jsonDecode(response.body) as List<dynamic>;
-      final teachers =
-          data.map((teacher) => teacher['name'] as String).toList();
       setState(() {
-        _teachers = teachers;
+        _teachers = data;
         _isLoading = false;
       });
     } else {
@@ -35,13 +34,16 @@ class _AdminTeacherScreenState extends State<AdminTeacherScreen> {
     }
   }
 
-  Widget _buildAdminTeacherScreen() {
+  Widget _buildTeacherList() {
     return ListView.builder(
       itemCount: _teachers.length,
       itemBuilder: (BuildContext context, int index) {
-        final teacherName = _teachers[index];
-        return ListTile(
-          title: Text(teacherName),
+        final teacher = _teachers[index];
+        return Card(
+          elevation: 3,
+          child: ListTile(
+            title: Text('${teacher['lastName']}, ${teacher['firstName']}'),
+          ),
         );
       },
     );
@@ -51,19 +53,23 @@ class _AdminTeacherScreenState extends State<AdminTeacherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () {},
-        backgroundColor: Color.fromARGB(255, 30, 136, 33),
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(
+          Icons.add,
+        ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 40, 109, 42),
+        backgroundColor: Colors.green[900],
         title: Text('Teacher List'),
       ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green)))
-          : _buildAdminTeacherScreen(),
+                color: Colors.green,
+              ),
+            )
+          : _buildTeacherList(),
     );
   }
 }

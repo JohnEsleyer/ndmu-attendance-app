@@ -11,23 +11,22 @@ class AdminClassroomScreen extends StatefulWidget {
 
 class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
   bool _isLoading = true;
-  List<String> _classrooms = [];
+  List<dynamic> _classrooms = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchClassrooms();
+    _fetchclassrooms();
   }
 
-  Future<void> _fetchClassrooms() async {
+  Future<void> _fetchclassrooms() async {
     final response = await http.get(Uri.parse('$server/all-classrooms'));
 
     if (response.statusCode == 200) {
+      print("Success");
       final data = jsonDecode(response.body) as List<dynamic>;
-      final classrooms =
-          data.map((classroom) => classroom['name'] as String).toList();
       setState(() {
-        _classrooms = classrooms;
+        _classrooms = data;
         _isLoading = false;
       });
     } else {
@@ -35,13 +34,18 @@ class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
     }
   }
 
-  Widget _buildAdminClassroomScreen() {
+  Widget _buildClassroomList() {
     return ListView.builder(
       itemCount: _classrooms.length,
       itemBuilder: (BuildContext context, int index) {
-        final classroomName = _classrooms[index];
-        return ListTile(
-          title: Text(classroomName),
+        final classroom = _classrooms[index];
+        return Card(
+          elevation: 3,
+          child: ListTile(
+            title: Text('${classroom['className']}'),
+            subtitle: Text(
+                "Teacher: ${classroom['teacher']['lastName']}, ${classroom['teacher']['firstName']}"),
+          ),
         );
       },
     );
@@ -51,19 +55,23 @@ class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () {},
-        backgroundColor: Color.fromARGB(255, 30, 136, 33),
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(
+          Icons.add,
+        ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 40, 109, 42),
+        backgroundColor: Colors.green[900],
         title: Text('Classroom List'),
       ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green)))
-          : _buildAdminClassroomScreen(),
+                color: Colors.green,
+              ),
+            )
+          : _buildClassroomList(),
     );
   }
 }

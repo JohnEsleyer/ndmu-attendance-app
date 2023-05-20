@@ -11,7 +11,7 @@ class AdminStudentScreen extends StatefulWidget {
 
 class _AdminStudentScreenState extends State<AdminStudentScreen> {
   bool _isLoading = true;
-  List<String> _students = [];
+  List<dynamic> _students = [];
 
   @override
   void initState() {
@@ -23,11 +23,10 @@ class _AdminStudentScreenState extends State<AdminStudentScreen> {
     final response = await http.get(Uri.parse('$server/all-students'));
 
     if (response.statusCode == 200) {
+      print("Success");
       final data = jsonDecode(response.body) as List<dynamic>;
-      final students =
-          data.map((student) => student['name'] as String).toList();
       setState(() {
-        _students = students;
+        _students = data;
         _isLoading = false;
       });
     } else {
@@ -35,13 +34,17 @@ class _AdminStudentScreenState extends State<AdminStudentScreen> {
     }
   }
 
-  Widget _buildAdminStudentScreen() {
+  Widget _buildStudentList() {
     return ListView.builder(
       itemCount: _students.length,
       itemBuilder: (BuildContext context, int index) {
-        final studentName = _students[index];
-        return ListTile(
-          title: Text(studentName),
+        final student = _students[index];
+        return Card(
+          elevation: 3,
+          child: ListTile(
+            title: Text('${student['lastName']}, ${student['firstName']}'),
+            subtitle: Text('School Year: ${student['schoolYear']}'),
+          ),
         );
       },
     );
@@ -51,19 +54,23 @@ class _AdminStudentScreenState extends State<AdminStudentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () {},
-        backgroundColor: Color.fromARGB(255, 30, 136, 33),
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(
+          Icons.add,
+        ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 40, 109, 42),
+        backgroundColor: Colors.green[900],
         title: Text('Student List'),
       ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green)))
-          : _buildAdminStudentScreen(),
+                color: Colors.green,
+              ),
+            )
+          : _buildStudentList(),
     );
   }
 }
