@@ -11,4 +11,6 @@ public interface StudentClassroomRepository extends JpaRepository<StudentClassro
     List<StudentClassroom> findAllByStudentId(long l);
     List<StudentClassroom> findAllByClassroomId(Integer classroomId);
     List<StudentClassroom> findByStudent(Student student);
+    List<StudentClassroom> findByClassroomId(Long classroomId);
+    StudentClassroom findByClassroomIdAndStudentId(Long classroomId, Long studentId);
 }

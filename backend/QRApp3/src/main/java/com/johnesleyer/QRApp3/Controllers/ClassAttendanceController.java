@@ -18,15 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.johnesleyer.QRApp3.Entities.ClassAttendance;
 import com.johnesleyer.QRApp3.Entities.Classroom;
+import com.johnesleyer.QRApp3.Entities.StudentClassroom;
 import com.johnesleyer.QRApp3.Repositories.ClassAttendanceRepository;
+import com.johnesleyer.QRApp3.Repositories.StudentClassroomRepository;
 
 
 @RestController
 public class ClassAttendanceController {
     private final ClassAttendanceRepository classAttendanceRepository;
 
-    public ClassAttendanceController(ClassAttendanceRepository classAttendanceRepository){
+    @Autowired
+    private final StudentClassroomRepository studentClassroomRepository;
+
+    public ClassAttendanceController(ClassAttendanceRepository classAttendanceRepository, StudentClassroomRepository studentClassroomRepository){
         this.classAttendanceRepository = classAttendanceRepository;
+        this.studentClassroomRepository = studentClassroomRepository;
     }
 
     @PostMapping("/register-classAttendance")
@@ -100,6 +106,33 @@ public class ClassAttendanceController {
         response.put("present", presentCount);
         response.put("absent", absentCount);
         response.put("late", lateCount);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/students-status-by-classroom")
+    public ResponseEntity<List<Map<String, Object>>> getStudentsStatusByClassroom(@RequestBody Map<String, Object> request) {
+        Long classroomId = ((Number) ((Map<String, Object>) request.get("classroom")).get("id")).longValue();
+
+        List<StudentClassroom> studentClassrooms = studentClassroomRepository.findByClassroomId(classroomId);
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        for (StudentClassroom studentClassroom : studentClassrooms) {
+            Long studentId = studentClassroom.getStudent().getId();
+
+            Map<String, Object> studentStatus = new HashMap<>();
+            studentStatus.put("student", Map.of("id", studentId));
+
+            int presentCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "present");
+            int absentCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "absent");
+            int lateCount = classAttendanceRepository.countByStudentIdAndClassroomIdAndStatus(studentId, classroomId, "late");
+
+            studentStatus.put("present", presentCount);
+            studentStatus.put("absent", absentCount);
+            studentStatus.put("late", lateCount);
+
+            response.add(studentStatus);
+        }
 
         return ResponseEntity.ok(response);
     }

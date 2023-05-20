@@ -3,12 +3,14 @@ package com.johnesleyer.QRApp3.Controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.johnesleyer.QRApp3.Entities.StudentClassroom;
+import com.johnesleyer.QRApp3.Repositories.ClassAttendanceRepository;
 import com.johnesleyer.QRApp3.Repositories.StudentClassroomRepository;
 
 
@@ -16,13 +18,16 @@ import com.johnesleyer.QRApp3.Repositories.StudentClassroomRepository;
 public class StudentClassroomController {
     private final StudentClassroomRepository studentClassroomRepository;
 
-    public StudentClassroomController(StudentClassroomRepository StudentClassroomRepository){
-        this.studentClassroomRepository = StudentClassroomRepository;
+
+    public StudentClassroomController(StudentClassroomRepository studentClassroomRepository){
+        this.studentClassroomRepository = studentClassroomRepository;
     }
 
+
+
     @PostMapping("/register-studentClassroom")
-    public StudentClassroom registerStudentClassroom(@RequestBody StudentClassroom StudentClassroom){
-        return studentClassroomRepository.save(StudentClassroom);
+    public StudentClassroom registerStudentClassroom(@RequestBody StudentClassroom studentClassroom){
+        return studentClassroomRepository.save(studentClassroom);
     }
 
     @GetMapping("/all-studentClassrooms")
@@ -49,4 +54,5 @@ public class StudentClassroomController {
         return studentClassroomRepository.findAllByStudentId(studentId);
     }
 
+    
 }
