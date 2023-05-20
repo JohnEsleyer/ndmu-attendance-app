@@ -90,8 +90,8 @@ public class AttendanceReportGenerator {
             int presentCount = (int) studentStatus.get("present");
             int absentCount = (int) studentStatus.get("absent");
             int lateCount = (int) studentStatus.get("late");
-            String studentFirst = (String) ((Map<String, Object>) studentStatus.get("studentFirst")).get("firstName");
-            String studentLast = (String) ((Map<String, Object>) studentStatus.get("studentLast")).get("lastName");
+            String studentFirst = (String) studentStatus.get("studentFirstName");
+            String studentLast = (String) studentStatus.get("studentLastName");
 
             htmlBuilder.append("<tr>\n");
             htmlBuilder.append("<td>").append(studentFirst).append("</td>\n");
