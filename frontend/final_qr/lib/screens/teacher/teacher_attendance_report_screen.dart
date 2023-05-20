@@ -164,21 +164,18 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                                         // var schedule = snapshot.data[index]['schedule'];
                                         // var defaultTime = snapshot.data[index]['defaultTime'];
                                         String firstName = snapshot.data[index]
-                                            ['student']["firstName"];
+                                            ['studentFirstName'];
                                         String lastName = snapshot.data[index]
-                                            ['student']["lastName"];
-                                        int studentId = snapshot.data[index]
-                                            ['student']["id"];
-                                        int schoolYear = snapshot.data[index]
-                                            ['student']["schoolYear"];
+                                            ['studentLastName'];
+                                        int present =
+                                            snapshot.data[index]["present"];
+                                        int late = snapshot.data[index]["late"];
+                                        int absent =
+                                            snapshot.data[index]["absent"];
 
                                         return Column(
                                           children: [
                                             Container(
-                                                height: 0.10 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height,
                                                 width: 0.90 *
                                                     MediaQuery.of(context)
                                                         .size
@@ -207,11 +204,90 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "$lastName, $firstName",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                    ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "$lastName, $firstName",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 20,
+                                                                right: 20),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              "$present",
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                color: Colors
+                                                                    .green,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "$late",
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                color: Colors
+                                                                    .yellow,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "$absent",
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                color:
+                                                                    Colors.red,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "Days present",
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "Days late",
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "Days absent",
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
                                                 )),
                                             SizedBox(height: 10),
