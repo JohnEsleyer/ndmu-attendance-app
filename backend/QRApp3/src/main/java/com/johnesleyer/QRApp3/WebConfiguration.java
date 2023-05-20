@@ -11,10 +11,14 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Value("${image.directory}")
     private String uploadFolderPath;
 
+    @Value("${report.directory}")
+    private String reportFolderPath;
+
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
             .addResourceHandler("/**") 
-            .addResourceLocations("file:" + uploadFolderPath);
+            .addResourceLocations("file:" + uploadFolderPath)
+            .addResourceLocations("file:" + reportFolderPath);
     }
 }

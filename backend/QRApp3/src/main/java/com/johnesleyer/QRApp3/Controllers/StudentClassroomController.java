@@ -3,14 +3,12 @@ package com.johnesleyer.QRApp3.Controllers;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.johnesleyer.QRApp3.Entities.StudentClassroom;
-import com.johnesleyer.QRApp3.Repositories.ClassAttendanceRepository;
 import com.johnesleyer.QRApp3.Repositories.StudentClassroomRepository;
 
 

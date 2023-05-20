@@ -1,12 +1,33 @@
 package com.johnesleyer.QRApp3.Controllers;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
 public class AttendanceReportGenerator {
+
+    public static void convertHtmlToPdf(String htmlFilePath, String pdfFilePath) {
+        try {
+            String url = new File(htmlFilePath).toURI().toURL().toString();
+            OutputStream outputStream = new FileOutputStream(pdfFilePath);
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocument(url);
+            renderer.layout();
+            renderer.createPDF(outputStream);
+            outputStream.close();
+            System.out.println("PDF generated successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void generateHTMLFile(List<Map<String, Object>> attendanceData) {
         StringBuilder htmlBuilder = new StringBuilder();
         System.out.println("Report generated!");
@@ -88,11 +109,13 @@ public class AttendanceReportGenerator {
         htmlBuilder.append("</body>\n");
         htmlBuilder.append("</html>\n");
         // Write the HTML content to a file
-        String filePath = "attendace_report.html"; // Update with your desired absolute path
+        String filePath = "reports/attendace_report.html"; // Update with your desired absolute path
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(htmlBuilder.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        convertHtmlToPdf(filePath, "reports/attendance_report.pdf");
     }
 }

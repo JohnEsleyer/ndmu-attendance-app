@@ -1,15 +1,12 @@
 package com.johnesleyer.QRApp3.Controllers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.util.Base64;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
