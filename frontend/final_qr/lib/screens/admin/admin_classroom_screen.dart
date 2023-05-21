@@ -42,6 +42,12 @@ class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
         return Card(
           elevation: 3,
           child: ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: ((context) =>
+                      StudentListScreen(classId: classroom['id']))));
+            },
+            splashColor: Colors.green,
             title: Text('${classroom['className']}'),
             subtitle: Text(
                 "Teacher: ${classroom['teacher']['lastName']}, ${classroom['teacher']['firstName']}"),
@@ -322,6 +328,219 @@ class _SelectTeacherState extends State<SelectTeacher> {
               ),
             )
           : _buildTeacherList(),
+    );
+  }
+}
+
+class StudentListScreen extends StatefulWidget {
+  int classId;
+  StudentListScreen({required this.classId});
+  @override
+  _StudentListScreenState createState() => _StudentListScreenState();
+}
+
+class _StudentListScreenState extends State<StudentListScreen> {
+  List<Map<String, dynamic>> students = [];
+  bool isLoading = false;
+  List<int> studentIDToExclude = [];
+
+  Future<void> fetchStudentsByClassroom() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final url = Uri.parse('$server/all-students-by-classroom');
+    final requestBody = jsonEncode({
+      "classroom": {"id": widget.classId},
+    });
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: requestBody,
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseBody = jsonDecode(response.body);
+        final List<Map<String, dynamic>> parsedStudents =
+            List<Map<String, dynamic>>.from(responseBody);
+
+        setState(() {
+          students = parsedStudents;
+          studentIDToExclude = parsedStudents
+              .map<int>((student) => student['student']['id'])
+              .toList();
+        });
+      } else {
+        // Handle error response
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle connection error
+      print('Error: $error');
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchStudentsByClassroom();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: ((context) =>
+                    ClassroomAddStudent(studentsExclude: studentIDToExclude))));
+          }),
+      appBar: AppBar(
+        backgroundColor: Colors.green[900],
+        title: Text('Student List'),
+      ),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+              ),
+            )
+          : ListView.builder(
+              itemCount: students.length,
+              itemBuilder: (context, index) {
+                final student = students[index]['student'];
+
+                return ListTile(
+                  title: Text(
+                    '${student['lastName']}, ${student['firstName']}',
+                  ),
+                  subtitle: Text('School Year: ${student['schoolYear']}'),
+                );
+              },
+            ),
+    );
+  }
+}
+
+class ClassroomAddStudent extends StatefulWidget {
+  final List<int> studentsExclude;
+
+  ClassroomAddStudent({required this.studentsExclude});
+
+  @override
+  _ClassroomAddStudentState createState() => _ClassroomAddStudentState();
+}
+
+class _ClassroomAddStudentState extends State<ClassroomAddStudent> {
+  List<Student> students = [];
+  bool isLoading = false;
+
+  Future<void> fetchStudentsExcept() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final url = '$server/all-students-except';
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode(
+      widget.studentsExclude.map((id) {
+        return {
+          'student': {'id': id},
+        };
+      }).toList(),
+    );
+
+    try {
+      final response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = jsonDecode(response.body);
+
+        setState(() {
+          students =
+              responseData.map((data) => Student.fromJson(data)).toList();
+        });
+        print(response.body);
+      } else {
+        // Handle error response
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle network or other errors
+      print('Error: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchStudentsExcept();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green[900],
+        title: Text('Add Student'),
+      ),
+      body: Center(
+        child: isLoading
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+              )
+            : ListView.builder(
+                itemCount: students.length,
+                itemBuilder: (context, index) {
+                  final student = students[index];
+                  return ListTile(
+                    title: Text('${student.lastName}, ${student.firstName}'),
+                    subtitle: Text('School Year: ${student.schoolYear}'),
+                  );
+                },
+              ),
+      ),
+    );
+  }
+}
+
+class Student {
+  final int id;
+  final String username;
+  final String password;
+  final String firstName;
+  final String lastName;
+  final int schoolYear;
+
+  Student({
+    required this.id,
+    required this.username,
+    required this.password,
+    required this.firstName,
+    required this.lastName,
+    required this.schoolYear,
+  });
+
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      id: json['id'],
+      username: json['username'],
+      password: json['password'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      schoolYear: json['schoolYear'],
     );
   }
 }

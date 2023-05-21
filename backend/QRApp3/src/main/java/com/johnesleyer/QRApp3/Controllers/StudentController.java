@@ -1,5 +1,6 @@
 package com.johnesleyer.QRApp3.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.web.IWebRequest;
 
 import com.johnesleyer.QRApp3.Entities.ClassAttendance;
 import com.johnesleyer.QRApp3.Entities.Student;
@@ -35,6 +37,16 @@ public class StudentController {
     @GetMapping("/all-students")
     public List<Student> getAllStudents(){
         return studentRepository.findAll();
+    }
+
+    @PostMapping("/all-students-except")
+    public List<Student> getAllStudentsExcept(@RequestBody List<IdRequest> request) {
+        List<Long> excludedIds = new ArrayList<>();
+        for (IdRequest idRequest : request) {
+            excludedIds.add(idRequest.getStudent().getId());
+        }
+
+        return studentRepository.findAllByIdNotIn(excludedIds);
     }
 
     @PostMapping("/update-student")
