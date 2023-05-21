@@ -341,8 +341,10 @@ class StudentListScreen extends StatefulWidget {
 
 class _StudentListScreenState extends State<StudentListScreen> {
   List<Map<String, dynamic>> students = [];
+
   bool isLoading = false;
   List<int> studentIDToExclude = [];
+  late List<dynamic> responseB;
 
   Future<void> fetchStudentsByClassroom() async {
     setState(() {
@@ -362,7 +364,8 @@ class _StudentListScreenState extends State<StudentListScreen> {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> responseBody = jsonDecode(response.body);
+        List<dynamic> responseBody = jsonDecode(response.body);
+        responseB = responseBody;
         final List<Map<String, dynamic>> parsedStudents =
             List<Map<String, dynamic>>.from(responseBody);
 
@@ -425,6 +428,69 @@ class _StudentListScreenState extends State<StudentListScreen> {
                     '${student['lastName']}, ${student['firstName']}',
                   ),
                   subtitle: Text('School Year: ${student['schoolYear']}'),
+                  trailing: GestureDetector(
+                    child: Icon(Icons.delete),
+                    onTap: () async {
+                      final url = '$server/delete-studentClassroom';
+                      final headers = {'Content-Type': 'application/json'};
+
+                      final studId = responseB[index]['student']['id'];
+                      final classId = responseB[index]['classroom']['id'];
+                      final body = json.encode({
+                        'student': {'id': studId},
+                        'classroom': {'id': classId},
+                      });
+
+                      try {
+                        final response = await http.delete(Uri.parse(url),
+                            headers: headers, body: body);
+
+                        if (response.statusCode == 200) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Success'),
+                              content: Text('Deletion successful.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Failure'),
+                              content: Text('Deletion failed.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Error'),
+                            content: Text('An error occurred.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 );
               },
             ),

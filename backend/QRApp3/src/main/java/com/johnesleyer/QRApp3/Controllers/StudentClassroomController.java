@@ -56,8 +56,12 @@ public class StudentClassroomController {
     }
 
     @DeleteMapping("/delete-studentClassroom")
-    public ResponseEntity<Void> deleteStudentClassroom(@RequestBody StudentClassroom studentClassroom) {
-        Optional<StudentClassroom> optionalStudentClassroom = studentClassroomRepository.findById(studentClassroom.getId());
+    public ResponseEntity<Void> deleteStudentClassroom(@RequestBody DeleteRequest deleteRequest) {
+        long studentId = deleteRequest.getStudent().getId();
+        long classroomId = deleteRequest.getClassroom().getId();
+        
+        Optional<StudentClassroom> optionalStudentClassroom = studentClassroomRepository.findByStudentIdAndClassroomId(studentId, classroomId);
+        
         if (optionalStudentClassroom.isPresent()) {
             studentClassroomRepository.delete(optionalStudentClassroom.get());
             return ResponseEntity.ok().build();
@@ -65,6 +69,7 @@ public class StudentClassroomController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 
 }
