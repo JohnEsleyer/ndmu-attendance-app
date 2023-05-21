@@ -1,6 +1,7 @@
 package com.johnesleyer.QRApp3.Repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +14,6 @@ public interface StudentClassroomRepository extends JpaRepository<StudentClassro
     List<StudentClassroom> findByStudent(Student student);
     List<StudentClassroom> findByClassroomId(Long classroomId);
     StudentClassroom findByClassroomIdAndStudentId(Long classroomId, Long studentId);
+    Optional<StudentClassroom> findById(Long id);
+
 }

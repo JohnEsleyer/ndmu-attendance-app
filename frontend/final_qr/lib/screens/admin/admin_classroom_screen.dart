@@ -396,11 +396,14 @@ class _StudentListScreenState extends State<StudentListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: ((context) =>
-                    ClassroomAddStudent(studentsExclude: studentIDToExclude))));
+                builder: ((context) => ClassroomAddStudent(
+                      studentsExclude: studentIDToExclude,
+                      classId: widget.classId,
+                    ))));
           }),
       appBar: AppBar(
         backgroundColor: Colors.green[900],
@@ -431,8 +434,9 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
 class ClassroomAddStudent extends StatefulWidget {
   final List<int> studentsExclude;
+  final int classId;
 
-  ClassroomAddStudent({required this.studentsExclude});
+  ClassroomAddStudent({required this.studentsExclude, required this.classId});
 
   @override
   _ClassroomAddStudentState createState() => _ClassroomAddStudentState();
@@ -505,9 +509,79 @@ class _ClassroomAddStudentState extends State<ClassroomAddStudent> {
                 itemCount: students.length,
                 itemBuilder: (context, index) {
                   final student = students[index];
-                  return ListTile(
-                    title: Text('${student.lastName}, ${student.firstName}'),
-                    subtitle: Text('School Year: ${student.schoolYear}'),
+                  return Card(
+                    child: ListTile(
+                      onTap: () async {
+                        final url = '$server/register-studentClassroom';
+                        final headers = {'Content-Type': 'application/json'};
+                        final body = jsonEncode({
+                          'student': {'id': student.id},
+                          'classroom': {'id': widget.classId},
+                        });
+
+                        try {
+                          final response = await http.post(Uri.parse(url),
+                              headers: headers, body: body);
+
+                          if (response.statusCode == 200) {
+                            print(response.body);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Success'),
+                                content: Text('Request Successful'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            print(response.body);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Failed'),
+                                content: Text('Request Failed'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Error'),
+                              content: Text('An error occurred'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                      splashColor: Colors.green[900],
+                      title: Text('${student.lastName}, ${student.firstName}'),
+                      subtitle: Text('School Year: ${student.schoolYear}'),
+                    ),
                   );
                 },
               ),

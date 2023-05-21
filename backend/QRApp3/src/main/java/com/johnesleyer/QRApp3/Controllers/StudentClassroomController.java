@@ -2,7 +2,10 @@ package com.johnesleyer.QRApp3.Controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,5 +55,16 @@ public class StudentClassroomController {
         return studentClassroomRepository.findAllByStudentId(studentId);
     }
 
-    
+    @DeleteMapping("/delete-studentClassroom")
+    public ResponseEntity<Void> deleteStudentClassroom(@RequestBody StudentClassroom studentClassroom) {
+        Optional<StudentClassroom> optionalStudentClassroom = studentClassroomRepository.findById(studentClassroom.getId());
+        if (optionalStudentClassroom.isPresent()) {
+            studentClassroomRepository.delete(optionalStudentClassroom.get());
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
