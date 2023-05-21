@@ -29,6 +29,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'QRApp',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+            accentColor: Color.fromARGB(
+                255, 0, 114, 34), // but now it should be declared like this
+          ),
+          highlightColor: Colors.green,
+          splashColor: Colors.green,
+          primaryColor: Colors.green,
+        ),
         initialRoute: "/",
         routes: {
           '/': (context) => Login(),

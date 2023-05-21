@@ -36,68 +36,81 @@ class _AdminStudentScreenState extends State<AdminStudentScreen> {
   }
 
   Widget _buildStudentList() {
-    return ListView.builder(
-      itemCount: _students.length,
-      itemBuilder: (BuildContext context, int index) {
-        final student = _students[index];
-        return Card(
-          elevation: 3,
-          child: ListTile(
-            title: Text('${student['lastName']}, ${student['firstName']}'),
-            subtitle: Text('School Year: ${student['schoolYear']}'),
-            trailing: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Are you sure you want to delete this user?'),
-                      content: Text('This action is irreversible.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () async {
-                            final studentId = student['id'];
-                            final data = {'id': studentId};
-                            final response = await http.delete(
-                              Uri.parse('$server/delete-student'),
-                              body: jsonEncode(data),
-                              headers: {'Content-Type': 'application/json'},
-                            );
+    return RefreshIndicator(
+      onRefresh: _fetchStudents,
+      color: Colors.white,
+      backgroundColor: Colors.green,
+      child: _students.length == 0
+          ? Center(
+              child: Text('No students found!'),
+            )
+          : ListView.builder(
+              itemCount: _students.length,
+              itemBuilder: (BuildContext context, int index) {
+                final student = _students[index];
+                return Card(
+                  elevation: 3,
+                  child: ListTile(
+                    title:
+                        Text('${student['lastName']}, ${student['firstName']}'),
+                    subtitle: Text('School Year: ${student['schoolYear']}'),
+                    trailing: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                  'Are you sure you want to delete this user?'),
+                              content: Text('This action is irreversible.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    final studentId = student['id'];
+                                    final data = {'id': studentId};
+                                    final response = await http.delete(
+                                      Uri.parse('$server/delete-student'),
+                                      body: jsonEncode(data),
+                                      headers: {
+                                        'Content-Type': 'application/json'
+                                      },
+                                    );
 
-                            if (response.statusCode == 200) {
-                              print("delete Success");
-                              // Success
-                            } else {
-                              // Error
-                              print("Error ${response.body}");
-                            }
-                            Navigator.pop(context);
-                            setState(() {});
+                                    if (response.statusCode == 200) {
+                                      print("delete Success");
+                                      // Success
+                                    } else {
+                                      // Error
+                                      print("Error ${response.body}");
+                                    }
+                                    Navigator.pop(context);
+                                    setState(() {});
+                                  },
+                                  child: Text(
+                                    'Yes',
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                ),
+                              ],
+                            );
                           },
-                          child: Text(
-                            'Yes',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                        );
+                      },
+                      child: Icon(Icons.delete),
+                    ),
+                  ),
                 );
               },
-              child: Icon(Icons.delete),
             ),
-          ),
-        );
-      },
     );
   }
 
@@ -166,6 +179,16 @@ class _CreateStudentState extends State<CreateStudent> {
     super.dispose();
   }
 
+  final snackBar = SnackBar(
+    backgroundColor: Colors.green,
+    content: Text(
+      'Student Sucessfuly Created!: Please refresh to see the newly added student',
+      style: TextStyle(
+        fontSize: 13,
+        color: Colors.white,
+      ),
+    ),
+  );
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -206,12 +229,13 @@ class _CreateStudentState extends State<CreateStudent> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Registration Successful'),
-            content: Text('Your account has been registered.'),
+            content: Text('Student has been registered.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 child: Text('OK'),
               ),

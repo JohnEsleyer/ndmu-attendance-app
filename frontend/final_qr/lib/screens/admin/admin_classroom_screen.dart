@@ -35,75 +35,81 @@ class _AdminClassroomScreenState extends State<AdminClassroomScreen> {
   }
 
   Widget _buildClassroomList() {
-    return ListView.builder(
-      itemCount: _classrooms.length,
-      itemBuilder: (BuildContext context, int index) {
-        final classroom = _classrooms[index];
-        return Card(
-          elevation: 3,
-          child: ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) =>
-                      StudentListScreen(classId: classroom['id']))));
-            },
-            splashColor: Colors.green,
-            title: Text('${classroom['className']}'),
-            subtitle: Text(
-                "Teacher: ${classroom['teacher']['lastName']}, ${classroom['teacher']['firstName']}"),
-            trailing: GestureDetector(
+    return RefreshIndicator(
+      color: Colors.white,
+      backgroundColor: Colors.green,
+      onRefresh: _fetchclassrooms,
+      child: ListView.builder(
+        itemCount: _classrooms.length,
+        itemBuilder: (BuildContext context, int index) {
+          final classroom = _classrooms[index];
+          return Card(
+            elevation: 3,
+            child: ListTile(
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Are you sure you want to delete this user?'),
-                      content: Text('This action is irreversible.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () async {
-                            final classroomId = classroom['id'];
-                            final data = {'id': classroomId};
-                            final response = await http.delete(
-                              Uri.parse('$server/delete-classroom'),
-                              body: jsonEncode(data),
-                              headers: {'Content-Type': 'application/json'},
-                            );
-
-                            if (response.statusCode == 200) {
-                              print("delete Success");
-                              // Success
-                            } else {
-                              // Error
-                              print("Error ${response.body}");
-                            }
-                            Navigator.pop(context);
-                            setState(() {});
-                          },
-                          child: Text(
-                            'Yes',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: ((context) =>
+                        StudentListScreen(classId: classroom['id']))));
               },
-              child: Icon(Icons.delete),
+              splashColor: Colors.green,
+              title: Text('${classroom['className']}'),
+              subtitle: Text(
+                  "Teacher: ${classroom['teacher']['lastName']}, ${classroom['teacher']['firstName']}"),
+              trailing: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title:
+                            Text('Are you sure you want to delete this user?'),
+                        content: Text('This action is irreversible.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              final classroomId = classroom['id'];
+                              final data = {'id': classroomId};
+                              final response = await http.delete(
+                                Uri.parse('$server/delete-classroom'),
+                                body: jsonEncode(data),
+                                headers: {'Content-Type': 'application/json'},
+                              );
+
+                              if (response.statusCode == 200) {
+                                print("delete Success");
+                                // Success
+                              } else {
+                                // Error
+                                print("Error ${response.body}");
+                              }
+                              Navigator.pop(context);
+                              setState(() {});
+                            },
+                            child: Text(
+                              'Yes',
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Icon(Icons.delete),
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -240,6 +246,18 @@ class _SelectTeacherState extends State<SelectTeacher> {
     }
   }
 
+  final snackBar = SnackBar(
+    backgroundColor: Colors.green,
+    content: Text(
+      'Classroom Sucessfuly Created!: Please refresh to see the newly added classroom',
+      style: TextStyle(
+        fontSize: 13,
+        color: Colors.white,
+      ),
+    ),
+    duration:
+        Duration(seconds: 2), // Duration for which the Snackbar will be visible
+  );
   Widget _buildTeacherList() {
     return ListView.builder(
       itemCount: _teachers.length,
@@ -273,6 +291,7 @@ class _SelectTeacherState extends State<SelectTeacher> {
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
                         child: Text('OK'),
                       ),
@@ -418,82 +437,93 @@ class _StudentListScreenState extends State<StudentListScreen> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
               ),
             )
-          : ListView.builder(
-              itemCount: students.length,
-              itemBuilder: (context, index) {
-                final student = students[index]['student'];
+          : students.length == 0
+              ? Center(
+                  child: Text("No students found!"),
+                )
+              : RefreshIndicator(
+                  onRefresh: fetchStudentsByClassroom,
+                  color: Colors.white,
+                  backgroundColor: Colors.green,
+                  child: ListView.builder(
+                    itemCount: students.length,
+                    itemBuilder: (context, index) {
+                      final student = students[index]['student'];
 
-                return ListTile(
-                  title: Text(
-                    '${student['lastName']}, ${student['firstName']}',
-                  ),
-                  subtitle: Text('School Year: ${student['schoolYear']}'),
-                  trailing: GestureDetector(
-                    child: Icon(Icons.delete),
-                    onTap: () async {
-                      final url = '$server/delete-studentClassroom';
-                      final headers = {'Content-Type': 'application/json'};
+                      return ListTile(
+                        title: Text(
+                          '${student['lastName']}, ${student['firstName']}',
+                        ),
+                        subtitle: Text('School Year: ${student['schoolYear']}'),
+                        trailing: GestureDetector(
+                          child: Icon(Icons.delete),
+                          onTap: () async {
+                            final url = '$server/delete-studentClassroom';
+                            final headers = {
+                              'Content-Type': 'application/json'
+                            };
 
-                      final studId = responseB[index]['student']['id'];
-                      final classId = responseB[index]['classroom']['id'];
-                      final body = json.encode({
-                        'student': {'id': studId},
-                        'classroom': {'id': classId},
-                      });
+                            final studId = responseB[index]['student']['id'];
+                            final classId = responseB[index]['classroom']['id'];
+                            final body = json.encode({
+                              'student': {'id': studId},
+                              'classroom': {'id': classId},
+                            });
 
-                      try {
-                        final response = await http.delete(Uri.parse(url),
-                            headers: headers, body: body);
+                            try {
+                              final response = await http.delete(Uri.parse(url),
+                                  headers: headers, body: body);
 
-                        if (response.statusCode == 200) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Success'),
-                              content: Text('Deletion successful.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
+                              if (response.statusCode == 200) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Success'),
+                                    content: Text('Deletion successful.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Failure'),
+                                    content: Text('Deletion failed.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text('An error occurred.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text('OK'),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Failure'),
-                              content: Text('Deletion failed.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Error'),
-                            content: Text('An error occurred.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
+                              );
+                            }
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
-            ),
+                ),
     );
   }
 }

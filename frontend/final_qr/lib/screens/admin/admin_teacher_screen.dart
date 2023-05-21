@@ -35,67 +35,73 @@ class _AdminTeacherScreenState extends State<AdminTeacherScreen> {
   }
 
   Widget _buildTeacherList() {
-    return ListView.builder(
-      itemCount: _teachers.length,
-      itemBuilder: (BuildContext context, int index) {
-        final teacher = _teachers[index];
-        return Card(
-          elevation: 3,
-          child: ListTile(
-            title: Text('${teacher['lastName']}, ${teacher['firstName']}'),
-            trailing: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Are you sure you want to delete this user?'),
-                      content: Text('This action is irreversible.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () async {
-                            final teacherId = teacher['id'];
-                            final data = {'id': teacherId};
-                            final response = await http.delete(
-                              Uri.parse('$server/delete-teacher'),
-                              body: jsonEncode(data),
-                              headers: {'Content-Type': 'application/json'},
-                            );
+    return RefreshIndicator(
+      color: Colors.white,
+      backgroundColor: Colors.green,
+      onRefresh: _fetchteachers,
+      child: ListView.builder(
+        itemCount: _teachers.length,
+        itemBuilder: (BuildContext context, int index) {
+          final teacher = _teachers[index];
+          return Card(
+            elevation: 3,
+            child: ListTile(
+              title: Text('${teacher['lastName']}, ${teacher['firstName']}'),
+              trailing: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title:
+                            Text('Are you sure you want to delete this user?'),
+                        content: Text('This action is irreversible.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              final teacherId = teacher['id'];
+                              final data = {'id': teacherId};
+                              final response = await http.delete(
+                                Uri.parse('$server/delete-teacher'),
+                                body: jsonEncode(data),
+                                headers: {'Content-Type': 'application/json'},
+                              );
 
-                            if (response.statusCode == 200) {
-                              print("delete Success");
-                              // Success
-                            } else {
-                              // Error
-                              print("Error ${response.body}");
-                            }
-                            Navigator.pop(context);
-                            setState(() {});
-                          },
-                          child: Text(
-                            'Yes',
-                            style: TextStyle(color: Colors.green),
+                              if (response.statusCode == 200) {
+                                print("delete Success");
+                                // Success
+                              } else {
+                                // Error
+                                print("Error ${response.body}");
+                              }
+                              Navigator.pop(context);
+                              setState(() {});
+                            },
+                            child: Text(
+                              'Yes',
+                              style: TextStyle(color: Colors.green),
+                            ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.green),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.green),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Icon(Icons.delete),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Icon(Icons.delete),
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -154,6 +160,16 @@ class _CreateTeacherState extends State<CreateTeacher> {
     super.dispose();
   }
 
+  final snackBar = SnackBar(
+    backgroundColor: Colors.green,
+    content: Text(
+      'Teacher Sucessfuly Created!: Please refresh to see the newly added teacher',
+      style: TextStyle(
+        fontSize: 13,
+        color: Colors.white,
+      ),
+    ),
+  );
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -198,6 +214,7 @@ class _CreateTeacherState extends State<CreateTeacher> {
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 child: Text('OK'),
               ),
