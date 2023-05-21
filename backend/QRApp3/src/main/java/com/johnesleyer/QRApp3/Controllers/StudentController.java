@@ -41,13 +41,18 @@ public class StudentController {
 
     @PostMapping("/all-students-except")
     public List<Student> getAllStudentsExcept(@RequestBody List<IdRequest> request) {
-        List<Long> excludedIds = new ArrayList<>();
-        for (IdRequest idRequest : request) {
-            excludedIds.add(idRequest.getStudent().getId());
-        }
+        if (request.isEmpty()) {
+            return studentRepository.findAll();
+        } else {
+            List<Long> excludedIds = new ArrayList<>();
+            for (IdRequest idRequest : request) {
+                excludedIds.add(idRequest.getStudent().getId());
+            }
 
-        return studentRepository.findAllByIdNotIn(excludedIds);
+            return studentRepository.findAllByIdNotIn(excludedIds);
+        }
     }
+
 
     @PostMapping("/update-student")
     public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
