@@ -48,6 +48,7 @@ dependencies:
   url_launcher: ^6.1.10
   flutter_file_dialog: ^3.0.0
   fluttertoast: ^8.2.1
+  flutter_shake_animated: ^0.0.5
 
 dev_dependencies:
   flutter_test:
