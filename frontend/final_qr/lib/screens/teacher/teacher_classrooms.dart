@@ -14,6 +14,8 @@ class TeacherClassrooms extends StatefulWidget {
 }
 
 class TeacherClassroomsState extends State<TeacherClassrooms> {
+  late Future<List<dynamic>> _futureClassrooms;
+  int temp = 0;
   Future<List<dynamic>> fetchClasses() async {
     final response = await http.post(
       Uri.parse('$server/all-classrooms-by-teacher'),
@@ -37,56 +39,70 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return GreenWhiteContainer(
       fontSize: 50,
       title: "Classrooms",
-      child: FutureBuilder<List<dynamic>>(
-          future: fetchClasses(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return Container(
-                height: 30,
-                width: 30,
-                child: const CircularProgressIndicator(
-                  color: Colors.green,
-                ),
-              );
-            } else {
-              bool firstTime = Provider.of<TeacherData>(context).isFirstTime;
-              if (!firstTime) {
-                Provider.of<TeacherData>(context).emptyClassroom();
+      child: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: Colors.green,
+        strokeWidth: 4.0,
+        onRefresh: () {
+          setState(() {
+            temp++;
+          });
+          return Future<void>.delayed(const Duration(seconds: 3));
+        },
+        child: FutureBuilder<List<dynamic>>(
+            future: fetchClasses(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return Container(
+                  height: 30,
+                  width: 30,
+                  child: const CircularProgressIndicator(
+                    color: Colors.green,
+                  ),
+                );
               } else {
-                Provider.of<TeacherData>(context).setFirstTime(false);
+                bool firstTime = Provider.of<TeacherData>(context).isFirstTime;
+                if (!firstTime) {
+                  Provider.of<TeacherData>(context).emptyClassroom();
+                } else {
+                  Provider.of<TeacherData>(context).setFirstTime(false);
+                }
+
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var className = snapshot.data[index]['className'];
+                    var qrURL = snapshot.data[index]['qrURL'];
+                    var classId = snapshot.data[index]["id"];
+                    // var schedule = snapshot.data[index]['schedule'];
+                    // var defaultTime = snapshot.data[index]['defaultTime'];
+
+                    Provider.of<TeacherData>(context)
+                        .appendClassroom(className);
+                    Provider.of<TeacherData>(context)
+                        .appendClassroomID(classId);
+                    if (index == 0) {
+                      Provider.of<TeacherData>(context).setSelected(
+                          Provider.of<TeacherData>(context).getClassrooms[0]);
+                    }
+                    print(qrURL);
+                    return ClassroomContainer(
+                      className: className,
+                      qrURL: qrURL,
+                      index: index,
+                      classId: classId,
+                    );
+                  },
+                );
               }
-
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var className = snapshot.data[index]['className'];
-                  var qrURL = snapshot.data[index]['qrURL'];
-                  var classId = snapshot.data[index]["id"];
-                  // var schedule = snapshot.data[index]['schedule'];
-                  // var defaultTime = snapshot.data[index]['defaultTime'];
-
-                  Provider.of<TeacherData>(context).appendClassroom(className);
-                  Provider.of<TeacherData>(context).appendClassroomID(classId);
-                  if (index == 0) {
-                    Provider.of<TeacherData>(context).setSelected(
-                        Provider.of<TeacherData>(context).getClassrooms[0]);
-                  }
-                  print(qrURL);
-                  return ClassroomContainer(
-                    className: className,
-                    qrURL: qrURL,
-                    index: index,
-                    classId: classId,
-                  );
-                },
-              );
-            }
-          }),
+            }),
+      ),
     );
   }
 }
