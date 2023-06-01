@@ -19,6 +19,8 @@ class UserDataProvider extends ChangeNotifier {
     userType: "",
   );
 
+  List<int> classroomAttended = [];
+
   UserData get getUserData => _userData;
 
   void updateUserData({

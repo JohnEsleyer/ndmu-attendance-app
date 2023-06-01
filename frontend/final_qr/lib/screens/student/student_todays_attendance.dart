@@ -124,39 +124,240 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
                           return Future<void>.delayed(
                               const Duration(seconds: 3));
                         },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.742,
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              String attendanceTimeString =
-                                  snapshot.data![index]["time"];
-                              TimeOfDay attendanceTime = TimeOfDay.fromDateTime(
-                                DateTime.parse(
-                                    "1970-01-01 $attendanceTimeString:00"),
-                              );
+                        child: RefreshIndicator(
+                          color: Colors.white,
+                          backgroundColor: Colors.green,
+                          strokeWidth: 4.0,
+                          onRefresh: () {
+                            return Future<void>.delayed(
+                                const Duration(seconds: 3));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.742,
+                            child: ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String attendanceTimeString =
+                                    snapshot.data![index]["time"];
+                                TimeOfDay attendanceTime =
+                                    TimeOfDay.fromDateTime(
+                                  DateTime.parse(
+                                      "1970-01-01 $attendanceTimeString:00"),
+                                );
 
-                              double timeNowDouble = toDouble(TimeOfDay.now());
-                              double timeAttendance = toDouble(attendanceTime);
+                                double timeNowDouble =
+                                    toDouble(TimeOfDay.now());
+                                double timeAttendance =
+                                    toDouble(attendanceTime);
 
-                              print(timeNowDouble);
-                              print(timeAttendance);
-                              if (timeNowDouble > timeAttendance &&
-                                  timeNowDouble < timeAttendance + 1) {
-                                print("Attendance Now!");
-                                return Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        print("Pressed");
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => ScanQR(
-                                              snapshot.data![index]["time"]),
-                                        ));
-                                      },
-                                      child: Container(
+                                print(timeNowDouble);
+                                print(timeAttendance);
+                                if (timeNowDouble > timeAttendance &&
+                                    timeNowDouble < timeAttendance + 1) {
+                                  print("Attendance Now");
+                                  List<int> classAttended =
+                                      Provider.of<UserDataProvider>(context)
+                                          .classroomAttended;
+
+                                  if (!classAttended
+                                      .contains(snapshot.data![index]['id'])) {
+                                    return Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("Pressed");
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => ScanQR(
+                                                  snapshot.data![index]["time"],
+                                                  snapshot.data![index]['id']),
+                                            ));
+                                          },
+                                          child: Container(
+                                            height: 120,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.85,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.5),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 5,
+                                                  offset: Offset(0,
+                                                      3), // changes position of shadow
+                                                ),
+                                              ],
+                                              color: Color.fromARGB(
+                                                  255, 32, 182, 2),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 2.0,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                          snapshot.data![index]
+                                                                  ["classroom"]
+                                                              ["className"],
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.white,
+                                                          )),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                          'Attendance has started and will end at \n ${convertTo12HourFormat(addHoursToTime(attendanceTimeString, 1))}',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.white,
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    ShakeWidget(
+                                                      autoPlay: true,
+                                                      shakeConstant:
+                                                          ShakeRotateConstant1(),
+                                                      child: Icon(
+                                                        Icons
+                                                            .notification_important,
+                                                        color: Colors.amber,
+                                                        size: 40,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    );
+                                  } else {
+                                    return Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("Pressed");
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => ScanQR(
+                                                  snapshot.data![index]["time"],
+                                                  snapshot.data![index]['id']),
+                                            ));
+                                          },
+                                          child: Container(
+                                            height: 120,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.85,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.5),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 5,
+                                                  offset: Offset(0,
+                                                      3), // changes position of shadow
+                                                ),
+                                              ],
+                                              color: Colors.amber,
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 2.0,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                          snapshot.data![index]
+                                                                  ["classroom"]
+                                                              ["className"],
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                          'Your attendance have been recorded',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.check_circle,
+                                                      color: Colors.green,
+                                                      size: 40,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    );
+                                  }
+                                } else {
+                                  print("Attendance Later!");
+                                  return Column(
+                                    children: [
+                                      Container(
                                         height: 120,
                                         width:
                                             MediaQuery.of(context).size.width *
@@ -172,8 +373,7 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
                                                   3), // changes position of shadow
                                             ),
                                           ],
-                                          color:
-                                              Color.fromARGB(255, 32, 182, 2),
+                                          color: Colors.white,
                                           border: Border.all(
                                             color: Colors.black,
                                             width: 2.0,
@@ -182,116 +382,38 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
                                             Radius.circular(10),
                                           ),
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      snapshot.data![index]
-                                                              ["classroom"]
-                                                          ["className"],
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.white,
-                                                      )),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      'Attendance has started and will end at \n ${convertTo12HourFormat(addHoursToTime(attendanceTimeString, 1))}',
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.white,
-                                                      )),
-                                                ),
-                                              ],
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  snapshot.data![index]
+                                                          ["classroom"]
+                                                      ["className"],
+                                                  style:
+                                                      TextStyle(fontSize: 20)),
                                             ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                ShakeWidget(
-                                                  autoPlay: true,
-                                                  shakeConstant:
-                                                      ShakeRotateConstant1(),
-                                                  child: Icon(
-                                                    Icons
-                                                        .notification_important,
-                                                    color: Colors.amber,
-                                                    size: 40,
-                                                  ),
-                                                ),
-                                              ],
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  'Attendance is scheduled at ${convertTo12HourFormat(attendanceTimeString)}',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                  )),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                );
-                              } else {
-                                print("Attendance Later!");
-                                return Column(
-                                  children: [
-                                    Container(
-                                      height: 120,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.85,
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 2,
-                                            blurRadius: 5,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 2.0,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                snapshot.data![index]
-                                                    ["classroom"]["className"],
-                                                style: TextStyle(fontSize: 20)),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                'Attendance is scheduled at ${convertTo12HourFormat(attendanceTimeString)}',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                )),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                );
-                              }
-                            },
+                                      SizedBox(height: 10),
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ),

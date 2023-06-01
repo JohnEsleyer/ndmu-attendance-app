@@ -10,9 +10,11 @@ import 'package:intl/intl.dart';
 
 class ScanQR extends StatefulWidget {
   late List<String> time;
-  ScanQR(String timeString) {
+  late int id;
+  ScanQR(String timeString, int id) {
     List<String> parts = timeString.split(':');
     this.time = parts;
+    this.id = id;
     // int hour = int.parse(parts[0]);
     // int minute = int.parse(parts[1]);;
   }
@@ -140,8 +142,12 @@ class _ScanQRState extends State<ScanQR> {
           final image = capture.image;
           for (final barcode in barcodes) {
             debugPrint('Barcode found! ${barcode.rawValue}');
+            print('Barcode found!');
           }
           recordAttendance(barcodes[0].rawValue!);
+          Provider.of<UserDataProvider>(context, listen: false)
+              .classroomAttended
+              .add(widget.id);
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
