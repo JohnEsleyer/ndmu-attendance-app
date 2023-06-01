@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:final_qr/widgets/DelayedWidget.dart';
 
+import 'classroom_settings.dart';
+
 class ViewClassroomTeacher extends StatefulWidget {
   String className;
   int classId;
@@ -150,25 +152,28 @@ class _ViewClassroomTeacherState extends State<ViewClassroomTeacher> {
                 color: Colors.green[900],
                 child: Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        children: [
+                          SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            widget.className,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 20),
-                      Text(
-                        widget.className,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                        ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.08),
                     ],
                   ),
                 ),
@@ -628,25 +633,43 @@ class _ViewClassroomTeacher2State extends State<ViewClassroomTeacher2> {
                 color: Colors.green[900],
                 child: Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
+                      Row(
+                        children: [
+                          SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            widget.className,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return ClassroomSetting();
+                            }));
+                          },
+                          child: Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      SizedBox(width: 20),
-                      Text(
-                        widget.className,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.08),
                     ],
                   ),
                 ),

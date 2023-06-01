@@ -163,7 +163,7 @@ class _LoginState extends State<Login> {
                                       });
 
                                       if (_username == "ndmu_admin" &&
-                                          _password == "ZVk88UVW") {
+                                          _password == "admin") {
                                         Navigator.of(context)
                                             .popAndPushNamed('/admin');
                                       } else {
