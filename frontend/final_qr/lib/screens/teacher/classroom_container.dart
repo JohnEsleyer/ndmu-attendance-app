@@ -85,7 +85,7 @@ class ClassroomContainer extends StatelessWidget {
                     child: Text(
                       className,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                       ),
                     ),
                   ),

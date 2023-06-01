@@ -33,6 +33,10 @@ class TeacherData extends ChangeNotifier {
   }
 
   bool get isFirstTime => _firstTime;
-  List<String> get getClassrooms => _classrooms;
+  List<String> get getClassrooms {
+    // emptyClassroom();
+    return _classrooms;
+  }
+
   List<int> get getClassroomID => _classroomIDs;
 }

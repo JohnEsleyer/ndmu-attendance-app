@@ -196,154 +196,172 @@ class _AttendanceReportScreenState extends State<AttendanceReportScreen> {
                                       );
                                     }
 
-                                    return Expanded(
-                                      child: ListView.builder(
-                                        physics: BouncingScrollPhysics(),
-                                        itemCount: snapshot.data.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          // var className =
-                                          //     snapshot.data[index]['className'];
-                                          // var qrURL = snapshot.data[index]['qrURL'];
-                                          // var classId = snapshot.data[index]["id"];
-                                          // var schedule = snapshot.data[index]['schedule'];
-                                          // var defaultTime = snapshot.data[index]['defaultTime'];
-                                          String firstName = snapshot
-                                              .data[index]['studentFirstName'];
-                                          String lastName = snapshot.data[index]
-                                              ['studentLastName'];
-                                          int present =
-                                              snapshot.data[index]["present"];
-                                          int late =
-                                              snapshot.data[index]["late"];
-                                          int absent =
-                                              snapshot.data[index]["absent"];
+                                    return RefreshIndicator(
+                                      color: Colors.white,
+                                      backgroundColor: Colors.green,
+                                      strokeWidth: 4.0,
+                                      onRefresh: () {
+                                        return Future<void>.delayed(
+                                            const Duration(seconds: 3));
+                                      },
+                                      child: Container(
+                                        height: 500,
+                                        child: ListView.builder(
+                                          physics:
+                                              AlwaysScrollableScrollPhysics(),
+                                          itemCount: snapshot.data.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            // var className =
+                                            //     snapshot.data[index]['className'];
+                                            // var qrURL = snapshot.data[index]['qrURL'];
+                                            // var classId = snapshot.data[index]["id"];
+                                            // var schedule = snapshot.data[index]['schedule'];
+                                            // var defaultTime = snapshot.data[index]['defaultTime'];
+                                            String firstName =
+                                                snapshot.data[index]
+                                                    ['studentFirstName'];
+                                            String lastName = snapshot
+                                                .data[index]['studentLastName'];
+                                            int present =
+                                                snapshot.data[index]["present"];
+                                            int late =
+                                                snapshot.data[index]["late"];
+                                            int absent =
+                                                snapshot.data[index]["absent"];
 
-                                          return Column(
-                                            children: [
-                                              Container(
-                                                  width: 0.90 *
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
-                                                  decoration: BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.5),
-                                                        spreadRadius: 2,
-                                                        blurRadius: 5,
-                                                        offset: Offset(0,
-                                                            3), // changes position of shadow
-                                                      ),
-                                                    ],
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(10),
-                                                    ),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "$lastName, $firstName",
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                          ),
+                                            return Column(
+                                              children: [
+                                                Container(
+                                                    width: 0.90 *
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          spreadRadius: 2,
+                                                          blurRadius: 5,
+                                                          offset: Offset(0,
+                                                              3), // changes position of shadow
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 20,
-                                                                  right: 20),
-                                                          child: Row(
+                                                      ],
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            "$lastName, $firstName",
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 20,
+                                                                    right: 20),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  "$present",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Colors
+                                                                        .green,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  "$late",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Colors
+                                                                        .yellow,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  "$absent",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
                                                               Text(
-                                                                "$present",
+                                                                "Days present",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize: 20,
-                                                                  color: Colors
-                                                                      .green,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  fontSize: 10,
                                                                 ),
                                                               ),
                                                               Text(
-                                                                "$late",
+                                                                "Days late",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize: 20,
-                                                                  color: Colors
-                                                                      .yellow,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  fontSize: 10,
                                                                 ),
                                                               ),
                                                               Text(
-                                                                "$absent",
+                                                                "Days absent",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize: 20,
-                                                                  color: Colors
-                                                                      .red,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  fontSize: 10,
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "Days present",
-                                                              style: TextStyle(
-                                                                fontSize: 10,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              "Days late",
-                                                              style: TextStyle(
-                                                                fontSize: 10,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              "Days absent",
-                                                              style: TextStyle(
-                                                                fontSize: 10,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )),
-                                              SizedBox(height: 10),
-                                            ],
-                                          );
-                                        },
+                                                        ],
+                                                      ),
+                                                    )),
+                                                SizedBox(height: 10),
+                                              ],
+                                            );
+                                          },
+                                        ),
                                       ),
                                     );
                                   }

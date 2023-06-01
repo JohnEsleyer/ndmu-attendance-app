@@ -74,7 +74,7 @@ class TeacherClassroomsState extends State<TeacherClassrooms> {
                 }
 
                 return ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: AlwaysScrollableScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     var className = snapshot.data[index]['className'];
