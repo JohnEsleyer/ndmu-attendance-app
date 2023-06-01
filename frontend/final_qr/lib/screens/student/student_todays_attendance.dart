@@ -279,7 +279,7 @@ class _TodaysAttendanceState extends State<TodaysAttendance> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                                'Attendance will start at ${convertTo12HourFormat(attendanceTimeString)}',
+                                                'Attendance is scheduled at ${convertTo12HourFormat(attendanceTimeString)}',
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                 )),

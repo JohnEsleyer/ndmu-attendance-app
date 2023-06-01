@@ -655,21 +655,6 @@ class _ViewClassroomTeacher2State extends State<ViewClassroomTeacher2> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return ClassroomSetting();
-                            }));
-                          },
-                          child: Icon(
-                            Icons.settings,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

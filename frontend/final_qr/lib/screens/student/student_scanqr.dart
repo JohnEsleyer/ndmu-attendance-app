@@ -95,6 +95,7 @@ class _ScanQRState extends State<ScanQR> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[900],
         title: const Text('Scan QR Code'),
         actions: [
           IconButton(
@@ -142,6 +143,12 @@ class _ScanQRState extends State<ScanQR> {
           }
           recordAttendance(barcodes[0].rawValue!);
           Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.amber,
+              content: Text("Attendance Recorded!"),
+            ),
+          );
         },
       ),
     );
