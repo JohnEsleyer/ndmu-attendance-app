@@ -1,5 +1,5 @@
 # NDMU-Attendance-App
- A cross-platform attendance system that uses QR code for student log in. Made for Notre Dame of Marbel University. This project was made as a final project for my Software Engineering subject. 
+ A mobile attendance system that uses QR code for student log in. Made for Notre Dame of Marbel University. This project was made as a project for my Software Engineering subject. 
 
 Frameworks used:
 - Flutter  (Mobile App)
